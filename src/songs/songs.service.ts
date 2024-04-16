@@ -10,6 +10,8 @@ export class SongsService {
   }
 
   findAll() {
+    // ! NestJS embedded error handling example
+    throw new Error('Error in db while fetching records');
     return this.songs;
   }
 }
