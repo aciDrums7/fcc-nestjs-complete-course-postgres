@@ -1,0 +1,14 @@
+### findAll
+GET http://localhost:3000/songs
+
+### findById
+GET http://localhost:3000/songs/1
+
+### create
+POST http://localhost:3000/songs
+
+### updateById
+PUT http://localhost:3000/songs/1
+
+### deleteById
+DELETE http://localhost:3000/songs/1

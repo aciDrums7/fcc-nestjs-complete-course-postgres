@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "humao.rest-client",
+    "firsttris.vscode-jest-runner",
+    "kavod-io.vscode-jest-test-adapter"
+  ]
+}
