@@ -6,6 +6,14 @@ GET http://localhost:3000/songs/1
 
 ### create
 POST http://localhost:3000/songs
+Content-Type: application/json
+
+{
+    "title": "Pneuma by TOOL",
+    "artists": ["TOOL"],
+    "releaseDate": "2021-01-01",
+    "duration": "03:30"
+}
 
 ### updateById
 PUT http://localhost:3000/songs/1

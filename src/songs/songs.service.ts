@@ -6,6 +6,7 @@ export class SongsService {
 
   create(song) {
     this.songs.push(song);
+    return this.songs.find((savedSong) => savedSong === song);
   }
 
   findAll() {

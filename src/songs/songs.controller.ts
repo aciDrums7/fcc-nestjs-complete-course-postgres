@@ -1,4 +1,5 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import CreateSongDTO from './dto/create-song-dto';
 import { SongsService } from './songs.service';
 
 @Controller('songs')
@@ -16,8 +17,8 @@ export class SongsController {
   }
 
   @Post()
-  create() {
-    return this.songsService.create('Pneuma by TOOL');
+  create(@Body() createSongDTO: CreateSongDTO) {
+    return this.songsService.create(createSongDTO);
   }
 
   @Put(':id')
