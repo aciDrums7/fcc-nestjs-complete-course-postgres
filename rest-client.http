@@ -1,3 +1,6 @@
+### Hello World!
+GET http://localhost:3000/
+
 ### findAll
 GET http://localhost:3000/songs
 
@@ -9,7 +12,7 @@ POST http://localhost:3000/songs
 Content-Type: application/json
 
 {
-    "title": "Pneuma by TOOL",
+    "title": "Pneuma",
     "artists": ["TOOL"],
     "releaseDate": "2021-01-01",
     "duration": "03:30"
