@@ -6,7 +6,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export default class CreateSongDTO {
+export class CreateSongDTO {
   @IsString()
   @IsNotEmpty()
   readonly title: string;
