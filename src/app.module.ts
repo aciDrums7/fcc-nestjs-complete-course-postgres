@@ -41,7 +41,7 @@ const prodConfig = { port: 4000 };
 })
 export class AppModule implements NestModule {
   constructor(private readonly datasource: DataSource) {
-    console.log('dbName:', datasource.driver.database);
+    // console.log('dbName:', datasource.driver.database);
   }
   configure(consumer: MiddlewareConsumer) {
     // consumer.apply(LoggerMiddleware).forRoutes('songs'); // * option 1

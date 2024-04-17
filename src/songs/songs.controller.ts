@@ -12,7 +12,7 @@ import {
   Scope,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
-import { CreateSongDTO } from './dto/create-song-dto';
+import { CreateSongDTO } from './dto/create-song.dto';
 
 // ? With Scope.REQUEST, a new instance is instantiated for each request processing pipeline
 @Controller({ path: 'songs', scope: Scope.REQUEST })
