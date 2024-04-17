@@ -18,9 +18,9 @@ import { connection } from 'src/common/constants/connection';
   providers: [
     // ? custom providers
     SongsService, //* option 1
-    // { provide: SongsService, useClass: SongsService }, //* option 2
-    // { provide: SongsService, useValue: mockSongsService }, //* option 3
-    { provide: 'CONNECTION', useValue: connection }, //* option 4
+    // { provide: SongsService, useClass: SongsService }, //* useClass
+    // { provide: SongsService, useValue: mockSongsService }, //* useValue
+    { provide: 'CONNECTION', useValue: connection }, //* useValue 2
   ],
 })
 export class SongsModule {}

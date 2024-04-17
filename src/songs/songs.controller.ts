@@ -9,11 +9,13 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Scope,
 } from '@nestjs/common';
 import CreateSongDTO from './dto/create-song-dto';
 import { SongsService } from './songs.service';
 
-@Controller('songs')
+// ? With Scope.REQUEST, a new instance is instantiated for each request processing pipeline
+@Controller({ path: 'songs', scope: Scope.REQUEST })
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 

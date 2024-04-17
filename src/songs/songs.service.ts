@@ -1,7 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { Connection } from 'src/common/constants/connection';
 
-@Injectable()
+// ? With Scope.TRANSIENT, A new private instance of the provider is instantiated for every use
+@Injectable({ scope: Scope.TRANSIENT })
 export class SongsService {
   constructor(@Inject('CONNECTION') private connection: Connection) {
     console.log('Inside SongsService');
@@ -17,7 +18,7 @@ export class SongsService {
 
   findAll() {
     // ! NestJS embedded error handling example
-    throw new Error('Error in db while fetching records');
+    // throw new Error('Error in db while fetching records');
     return this.songs;
   }
 }

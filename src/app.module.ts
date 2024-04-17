@@ -31,6 +31,6 @@ export class AppModule implements NestModule {
     // consumer
     //   .apply(LoggerMiddleware)
     //   .forRoutes({ path: 'songs', method: RequestMethod.POST }); // * option 2
-    consumer.apply(LoggerMiddleware).forRoutes(SongsController); // * option 2
+    consumer.apply(LoggerMiddleware).forRoutes(SongsController); // * option 3
   }
 }
