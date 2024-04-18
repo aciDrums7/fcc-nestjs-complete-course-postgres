@@ -4,6 +4,11 @@ import { Song } from './song.entity';
 import { CreateSongDTO } from './dto/create-song.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateSongDTO } from './dto/update-song.dto';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 // ? With Scope.TRANSIENT, A new private instance of the provider is instantiated for every use
 @Injectable({ scope: Scope.TRANSIENT })
@@ -17,10 +22,12 @@ export class SongsService {
     // console.log(this.connection);
   }
 
-  findAll(): Promise<Song[]> {
+  findAll(options: IPaginationOptions): Promise<Pagination<Song>> {
     // ! NestJS embedded error handling example
     // throw new Error('Error in db while fetching records');
-    return this.songsRepository.find();
+    const queryBuilder = this.songsRepository.createQueryBuilder('c');
+    queryBuilder.orderBy('c.title', 'ASC');
+    return paginate<Song>(queryBuilder, options);
   }
 
   findOne(id: number): Promise<Song> {

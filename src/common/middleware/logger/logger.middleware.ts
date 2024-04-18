@@ -8,7 +8,7 @@ export class LoggerMiddleware implements NestMiddleware {
     console.log(
       `${now.toDateString()}, ${now.toLocaleTimeString()} - Request ${req.method} ${req.path}`,
     );
-    if (req.body) {
+    if (Object.keys(req.body).length !== 0) {
       console.log(`Body: \n${JSON.stringify(req.body, null, 2)}`);
     }
     next();

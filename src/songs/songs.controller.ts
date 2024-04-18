@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   HttpException,
@@ -10,6 +11,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   Scope,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
@@ -17,6 +19,7 @@ import { CreateSongDTO } from './dto/create-song.dto';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { Song } from './song.entity';
 import { UpdateSongDTO } from './dto/update-song.dto';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 // ? With Scope.REQUEST, a new instance is instantiated for each request processing pipeline
 @Controller({ path: 'songs', scope: Scope.REQUEST })
@@ -24,9 +27,13 @@ export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
   @Get()
-  async findAll(): Promise<Song[]> {
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ): Promise<Pagination<Song>> {
     try {
-      return await this.songsService.findAll();
+      limit = limit > 100 ? 100 : limit;
+      return await this.songsService.findAll({ page, limit });
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR, {
         cause: e,
@@ -36,10 +43,7 @@ export class SongsController {
 
   @Get(':id')
   async findOne(
-    @Param(
-      'id',
-      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
-    )
+    @Param('id', ParseIntPipe)
     id: number,
   ) {
     try {
@@ -68,10 +72,7 @@ export class SongsController {
 
   @Put(':id')
   update(
-    @Param(
-      'id',
-      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
-    )
+    @Param('id', ParseIntPipe)
     id: number,
     @Body() updateSongDTO: UpdateSongDTO,
   ): Promise<UpdateResult> {
@@ -80,10 +81,7 @@ export class SongsController {
 
   @Delete(':id')
   async delete(
-    @Param(
-      'id',
-      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
-    )
+    @Param('id', ParseIntPipe)
     id: number,
   ): Promise<DeleteResult> {
     try {

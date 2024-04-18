@@ -2,7 +2,7 @@
 GET http://localhost:3000/
 
 ### findAll
-GET http://localhost:3000/songs
+GET http://localhost:3000/songs?page=1&limit=2
 
 ### findById
 GET http://localhost:3000/songs/3
@@ -12,11 +12,11 @@ POST http://localhost:3000/songs
 Content-Type: application/json
 
 {
-    "title": "Pneuma",
+    "title": "7empest",
     "artists": ["TOOL"],
     "releaseDate": "2021-01-01",
-    "duration": "03:30",
-    "lyrics": "We are spirit bound to this flesh"
+    "duration": "07:30",
+    "lyrics": ""
 }
 
 ### updateById
