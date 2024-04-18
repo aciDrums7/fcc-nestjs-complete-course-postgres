@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Playlist } from 'src/playlists/playlist.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('songs')
 export class Song {
@@ -8,9 +9,6 @@ export class Song {
   @Column({ type: 'text', nullable: false })
   title: string;
 
-  @Column({ type: 'text', nullable: false, array: true })
-  artists: string[];
-
   @Column({ type: 'date', nullable: false })
   releaseDate: Date;
 
@@ -19,4 +17,10 @@ export class Song {
 
   @Column({ type: 'text', nullable: true })
   lyrics: string;
+
+  // @OneToMany(() => Artist, (artist) => artist.songs)
+  // artists: Artist[];
+
+  @ManyToOne(() => Playlist, (playlist) => playlist.songs)
+  playlist: Playlist;
 }

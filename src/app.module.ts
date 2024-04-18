@@ -8,6 +8,7 @@ import { DevConfigService } from './common/providers/dev-config.service/dev-conf
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 // import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { PlaylistsModule } from './playlists/playlists.module';
 
 const devConfig = { port: 3000 };
 const prodConfig = { port: 4000 };
@@ -39,6 +40,7 @@ const prodConfig = { port: 4000 };
       synchronize: true,
     }),
     SongsModule,
+    PlaylistsModule,
   ], // repositories, services and factories
 })
 export class AppModule implements NestModule {
