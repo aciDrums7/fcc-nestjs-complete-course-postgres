@@ -5,6 +5,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Post,
@@ -13,6 +14,9 @@ import {
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDTO } from './dto/create-song.dto';
+import { DeleteResult, UpdateResult } from 'typeorm';
+import { Song } from './song.entity';
+import { UpdateSongDTO } from './dto/update-song.dto';
 
 // ? With Scope.REQUEST, a new instance is instantiated for each request processing pipeline
 @Controller({ path: 'songs', scope: Scope.REQUEST })
@@ -20,9 +24,9 @@ export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
   @Get()
-  findAll() {
+  async findAll(): Promise<Song[]> {
     try {
-      return this.songsService.findAll();
+      return await this.songsService.findAll();
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR, {
         cause: e,
@@ -31,28 +35,63 @@ export class SongsController {
   }
 
   @Get(':id')
-  findOne(
+  async findOne(
     @Param(
       'id',
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
   ) {
-    return `fetch song based on the id: ${id}`;
+    try {
+      const song = await this.songsService.findOne(id);
+      if (!song) {
+        throw new NotFoundException(`Song with id ${id} not found`);
+      }
+      return song;
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        throw new HttpException(
+          `Song with id ${id} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: e,
+      });
+    }
   }
 
   @Post()
-  create(@Body() createSongDTO: CreateSongDTO) {
-    return this.songsService.create(createSongDTO);
+  async create(@Body() createSongDTO: CreateSongDTO): Promise<Song> {
+    return await this.songsService.create(createSongDTO);
   }
 
   @Put(':id')
-  update() {
-    return 'update song based on the id';
+  update(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+    @Body() updateSongDTO: UpdateSongDTO,
+  ): Promise<UpdateResult> {
+    return this.songsService.update(id, updateSongDTO);
   }
 
   @Delete(':id')
-  delete() {
-    return 'delete song based on the id';
+  async delete(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ): Promise<DeleteResult> {
+    try {
+      return await this.songsService.deleteById(id);
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: e,
+      });
+    }
   }
 }

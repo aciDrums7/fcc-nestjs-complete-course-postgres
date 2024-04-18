@@ -5,7 +5,7 @@ GET http://localhost:3000/
 GET http://localhost:3000/songs
 
 ### findById
-GET http://localhost:3000/songs/1
+GET http://localhost:3000/songs/3
 
 ### create
 POST http://localhost:3000/songs
@@ -15,11 +15,21 @@ Content-Type: application/json
     "title": "Pneuma",
     "artists": ["TOOL"],
     "releaseDate": "2021-01-01",
-    "duration": "03:30"
+    "duration": "03:30",
+    "lyrics": "We are spirit bound to this flesh"
 }
 
 ### updateById
 PUT http://localhost:3000/songs/1
+Content-Type: application/json
+
+{
+    # "title": "Pneuma",
+    # "artists": ["TOOL"],
+    # "releaseDate": "2021-01-01",
+    # "duration": "03:30",
+    "lyrics": "We are spirit bound to this flesh"
+}
 
 ### deleteById
-DELETE http://localhost:3000/songs/1
+DELETE http://localhost:3000/songs/2

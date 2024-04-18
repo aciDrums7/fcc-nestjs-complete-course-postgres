@@ -7,6 +7,7 @@ import { SongsModule } from './songs/songs.module';
 import { DevConfigService } from './common/providers/dev-config.service/dev-config.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+// import { DevtoolsModule } from '@nestjs/devtools-integration';
 
 const devConfig = { port: 3000 };
 const prodConfig = { port: 4000 };
@@ -26,6 +27,7 @@ const prodConfig = { port: 4000 };
     },
   ],
   imports: [
+    // DevtoolsModule.register({ http: process.env.NODE_ENV !== 'production' }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
