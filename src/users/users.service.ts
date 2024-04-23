@@ -1,9 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
+import { LoginDTO } from 'src/auth/dto/login.dto';
 
 @Injectable()
 export class UsersService {
@@ -12,19 +17,27 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDTO: CreateUserDTO): Promise<User> {
     if (
-      this.userRepository.findOne({ where: { email: createUserDto.email } })
+      this.userRepository.findOne({ where: { email: createUserDTO.email } })
     ) {
       throw new BadRequestException(
-        `User with email ${createUserDto.email} already exists`,
+        `User with email ${createUserDTO.email} already exists`,
       );
     }
     const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(createUserDto.password, salt);
-    createUserDto.password = hash;
-    const user = await this.userRepository.save(createUserDto);
+    const hash = await bcrypt.hash(createUserDTO.password, salt);
+    createUserDTO.password = hash;
+    const user = await this.userRepository.save(createUserDTO);
     delete user.password;
+    return user;
+  }
+
+  async findOne(loginDTO: LoginDTO /* Partial<User> */): Promise<User> {
+    const user = await this.userRepository.findOneBy({ email: loginDTO.email });
+    if (!user) {
+      throw new UnauthorizedException('Could not find user');
+    }
     return user;
   }
 }
