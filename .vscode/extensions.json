@@ -9,6 +9,7 @@
     "oderwat.indent-rainbow",
     "esbenp.prettier-vscode",
     "prisma.prisma",
-    "yoavbls.pretty-ts-errors"
+    "yoavbls.pretty-ts-errors",
+    "mikestead.dotenv"
   ]
 }

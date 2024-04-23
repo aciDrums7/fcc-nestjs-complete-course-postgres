@@ -72,6 +72,13 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-"email": "john1@gmail.com",
+"email": "john@gmail.com",
 "password": "123456"
 }
+
+
+### Get Current User
+# ! WORKING ON POSTMAN BUT NOT HERE
+GET http://localhost:3000/current-user
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZ21haWwuY29tIiwic3ViIjoyLCJpYXQiOjE3MTM4OTA2NDEsImV4cCI6MTcxMzg5NDI0MX0.w1HmHDvmuZf6vM8GYj5Rn-U1wFhQub5HJcWEGLeO3yM
