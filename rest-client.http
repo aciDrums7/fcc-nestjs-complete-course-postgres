@@ -52,3 +52,17 @@ Content-Type: application/json
     "userId": 1
 }
 
+# USERS
+# 
+# 
+
+### Signup User
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+"firstName": "john",
+"lastName": "doe",
+"email": "john1@gmail.com",
+"password": "123456"
+}
