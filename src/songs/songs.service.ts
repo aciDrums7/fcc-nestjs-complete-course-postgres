@@ -1,5 +1,5 @@
 import { Injectable, Scope } from '@nestjs/common';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, In, Repository, UpdateResult } from 'typeorm';
 import { Song } from './song.entity';
 import { CreateSongDTO } from './dto/create-song.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,6 +9,7 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
+import { Artist } from 'src/artists/artist.entity';
 
 // ? With Scope.TRANSIENT, A new private instance of the provider is instantiated for every use
 @Injectable({ scope: Scope.TRANSIENT })
@@ -16,6 +17,8 @@ export class SongsService {
   constructor(
     @InjectRepository(Song)
     private readonly songsRepository: Repository<Song>,
+    @InjectRepository(Artist)
+    private readonly artistsRepository: Repository<Artist>,
     /* @Inject('CONNECTION') private connection: Connection */
   ) {
     // console.log('Inside SongsService');
@@ -34,12 +37,18 @@ export class SongsService {
     return this.songsRepository.findOneBy({ id });
   }
 
-  create(song: CreateSongDTO): Promise<Song> {
-    return this.songsRepository.save({ ...song });
+  async create(songDTO: CreateSongDTO): Promise<Song> {
+    const { artistsIds, ...song } = songDTO;
+    const artists = await this.artistsRepository.findBy({ id: In(artistsIds) });
+
+    return this.songsRepository.save({ ...song, artists });
   }
 
-  update(id: number, song: UpdateSongDTO): Promise<UpdateResult> {
-    return this.songsRepository.update({ id }, { ...song });
+  async update(id: number, songDTO: UpdateSongDTO): Promise<UpdateResult> {
+    const { artistsIds, ...song } = songDTO;
+    const artists = await this.artistsRepository.findBy({ id: In(artistsIds) });
+
+    return this.songsRepository.update({ id }, { ...song, artists });
   }
 
   deleteById(id: number): Promise<DeleteResult> {
