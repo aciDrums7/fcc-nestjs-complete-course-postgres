@@ -9,7 +9,7 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
-import { Artist } from 'src/artists/artist.entity';
+import { Artist } from 'src/resources/artists/artist.entity';
 
 // ? With Scope.TRANSIENT, A new private instance of the provider is instantiated for every use
 @Injectable({ scope: Scope.TRANSIENT })
@@ -21,16 +21,16 @@ export class SongsService {
     private readonly artistsRepository: Repository<Artist>,
     /* @Inject('CONNECTION') private connection: Connection */
   ) {
-    // console.log('Inside SongsService');
-    // console.log(this.connection);
+    // Logger.log('Inside SongsService');
+    // Logger.log(this.connection);
   }
 
-  findAll(options: IPaginationOptions): Promise<Pagination<Song>> {
+  async findAll(options: IPaginationOptions): Promise<Pagination<Song>> {
     // ! NestJS embedded error handling example
     // throw new Error('Error in db while fetching records');
     const queryBuilder = this.songsRepository.createQueryBuilder('c');
     queryBuilder.orderBy('c.title', 'ASC');
-    return paginate<Song>(queryBuilder, options);
+    return await paginate<Song>(queryBuilder, options);
   }
 
   findOne(id: number): Promise<Song> {

@@ -5,13 +5,15 @@ import {
   HttpStatus,
   Post,
 } from '@nestjs/common';
-import { CreateUserDTO } from 'src/users/dto/create-user.dto';
-import { User } from 'src/users/user.entity';
-import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { LoginDTO } from './dto/login.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { UsersService } from 'src/resources/users/users.service';
+import { CreateUserDTO } from 'src/resources/users/dto/create-user.dto';
+import { User } from 'src/resources/users/user.entity';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,

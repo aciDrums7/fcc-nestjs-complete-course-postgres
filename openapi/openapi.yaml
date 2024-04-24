@@ -1,0 +1,176 @@
+openapi: 3.0.0
+paths:
+  /api/v1:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - app
+  /api/v1/current-user:
+    get:
+      operationId: AppController_getProfile
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - app
+      security:
+        - bearer: []
+  /api/v1/songs:
+    get:
+      operationId: SongsController_findAll
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+      tags:
+        - songs
+    post:
+      operationId: SongsController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSongDTO"
+      responses:
+        "201":
+          description: ""
+      tags:
+        - songs
+  /api/v1/songs/{id}:
+    get:
+      operationId: SongsController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+      tags:
+        - songs
+    put:
+      operationId: SongsController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSongDTO"
+      responses:
+        "200":
+          description: ""
+      tags:
+        - songs
+    delete:
+      operationId: SongsController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+      tags:
+        - songs
+  /api/v1/playlists:
+    post:
+      operationId: PlaylistsController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePlaylistDTO"
+      responses:
+        "201":
+          description: ""
+      tags:
+        - playlists
+  /api/v1/auth/signup:
+    post:
+      operationId: AuthController_signup
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserDTO"
+      responses:
+        "201":
+          description: ""
+      tags:
+        - auth
+  /api/v1/auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDTO"
+      responses:
+        "201":
+          description: ""
+      tags:
+        - auth
+info:
+  title: Spotify Clone API
+  description: freeCodeCamp - NestJS Complete Course API
+  version: "1.0"
+  contact: {}
+tags: []
+servers:
+  - url: http://localhost:3000
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateSongDTO:
+      type: object
+      properties: {}
+    UpdateSongDTO:
+      type: object
+      properties: {}
+    CreatePlaylistDTO:
+      type: object
+      properties: {}
+    CreateUserDTO:
+      type: object
+      properties: {}
+    LoginDTO:
+      type: object
+      properties: {}

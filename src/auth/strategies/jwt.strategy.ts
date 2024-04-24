@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
@@ -19,7 +19,7 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
   // ? this function will be called by the @AuthGuard('jwt')
   // ? and it will add the userId and email to the `req.user` object
   async validate(payload: any) {
-    console.log(payload);
+    // Logger.log(`JWT: \n${JSON.stringify(payload, null, 2)}`);
     return { userId: payload.sub, email: payload.email };
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Song } from 'src/songs/song.entity';
-import { User } from 'src/users/user.entity';
+import { Song } from 'src/resources/songs/song.entity';
+import { User } from 'src/resources/users/user.entity';
 import { In, Repository } from 'typeorm';
 import { CreatePlaylistDTO } from './dto/create-playlist.dto';
 import { Playlist } from './playlist.entity';
@@ -32,6 +32,6 @@ export class PlaylistsService {
     }
     playlist.user = user;
 
-    return this.playlistRepository.save(playlist);
+    return await this.playlistRepository.save(playlist);
   }
 }

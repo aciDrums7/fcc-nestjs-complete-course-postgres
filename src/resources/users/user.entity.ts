@@ -1,5 +1,6 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Playlist } from 'src/playlists/playlist.entity';
+import { Playlist } from 'src/resources/playlists/playlist.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
@@ -18,6 +19,8 @@ export class User {
 
   @Column({ type: 'text', nullable: false })
   @Exclude()
+  // ? https://notiz.dev/blog/openapi-in-nestjs
+  @ApiHideProperty()
   password: string;
 
   @OneToMany(() => Playlist, (playlist) => playlist.user)

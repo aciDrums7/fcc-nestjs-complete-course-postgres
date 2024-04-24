@@ -12,28 +12,29 @@ import {
   Post,
   Put,
   Query,
-  Scope,
 } from '@nestjs/common';
-import { SongsService } from './songs.service';
-import { CreateSongDTO } from './dto/create-song.dto';
-import { DeleteResult, UpdateResult } from 'typeorm';
-import { Song } from './song.entity';
-import { UpdateSongDTO } from './dto/update-song.dto';
+import { ApiTags } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { DeleteResult, UpdateResult } from 'typeorm';
+import { CreateSongDTO } from './dto/create-song.dto';
+import { UpdateSongDTO } from './dto/update-song.dto';
+import { Song } from './song.entity';
+import { SongsService } from './songs.service';
 
 // ? With Scope.REQUEST, a new instance is instantiated for each request processing pipeline
-@Controller({ path: 'songs', scope: Scope.REQUEST })
+@Controller({ path: 'songs' /* , scope: Scope.DEFAULT */ })
+@ApiTags('songs')
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
   @Get()
-  async findAll(
+  findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
   ): Promise<Pagination<Song>> {
     try {
       limit = limit > 100 ? 100 : limit;
-      return await this.songsService.findAll({ page, limit });
+      return this.songsService.findAll({ page, limit });
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR, {
         cause: e,

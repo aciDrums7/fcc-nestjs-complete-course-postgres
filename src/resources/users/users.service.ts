@@ -19,7 +19,9 @@ export class UsersService {
 
   async create(createUserDTO: CreateUserDTO): Promise<User> {
     if (
-      this.userRepository.findOne({ where: { email: createUserDTO.email } })
+      await this.userRepository.findOne({
+        where: { email: createUserDTO.email },
+      })
     ) {
       throw new BadRequestException(
         `User with email ${createUserDTO.email} already exists`,

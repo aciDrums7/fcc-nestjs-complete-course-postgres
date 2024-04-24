@@ -1,17 +1,17 @@
 import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule } from '@nestjs/swagger';
 import 'reflect-metadata';
 import { AppModule } from './app.module';
+import { OpenApiNestFactory } from 'nest-openapi-tools';
 import { generateClientOptions } from './generate-client-options';
+import { ConfigService } from '@nestjs/config';
 
-async function bootstrap() {
+// ! "generate-client": "ts-node -r tsconfig-paths/register src/generate-client.ts",
+async function generateClient() {
   const app = await NestFactory.create(AppModule, { snapshot: true });
 
   // Use ConfigService to access environment variables
   const configService = app.get(ConfigService);
-  const PORT = configService.get<number>('PORT', 3000);
   const API_VERSION = configService.get<string>('API_VERSION', 'v1');
 
   app.useGlobalPipes(new ValidationPipe());
@@ -19,20 +19,17 @@ async function bootstrap() {
     exclude: [{ path: 'health', method: RequestMethod.GET }],
   });
 
-  const { documentBuilder, swaggerOptions } =
+  const { documentBuilder, openApiOptions, swaggerOptions } =
     generateClientOptions(API_VERSION);
 
-  // ? In order to create a full document (with all HTTP routes defined)
-  // ? we use the createDocument() method of the SwaggerModule class
-  const document = SwaggerModule.createDocument(
+  await OpenApiNestFactory.configure(
     app,
-    documentBuilder.build(),
+    documentBuilder,
+    openApiOptions,
     swaggerOptions,
   );
-  SwaggerModule.setup(`${API_VERSION}/api-docs`, app, document);
 
-  await app.listen(PORT);
-  Logger.log(`Application is running on: http://localhost:${PORT}`);
+  Logger.log(`Created OpenAPI Client config`);
 }
-// ? this is called by nest start
-bootstrap();
+
+generateClient();

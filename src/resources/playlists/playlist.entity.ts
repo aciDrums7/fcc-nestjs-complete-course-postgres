@@ -1,5 +1,5 @@
-import { Song } from 'src/songs/song.entity';
-import { User } from 'src/users/user.entity';
+import { Song } from 'src/resources/songs/song.entity';
+import { User } from 'src/resources/users/user.entity';
 import {
   Column,
   Entity,

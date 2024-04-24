@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import 'dotenv/config';
-import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JWTStrategy } from './strategies/jwt.strategy';
+import { UsersModule } from 'src/resources/users/users.module';
 
 @Module({
   providers: [AuthService, JWTStrategy],

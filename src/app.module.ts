@@ -1,16 +1,14 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
-import { SongsController } from './songs/songs.controller';
-import { SongsModule } from './songs/songs.module';
-import { DevConfigService } from './common/providers/dev-config.service/dev-config.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-// import { DevtoolsModule } from '@nestjs/devtools-integration';
-import { PlaylistsModule } from './playlists/playlists.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
+import { DevConfigService } from './common/providers/dev-config.service/dev-config.service';
+import { PlaylistsModule } from './resources/playlists/playlists.module';
+import { SongsModule } from './resources/songs/songs.module';
+import { UsersModule } from './resources/users/users.module';
 
 const devConfig = { port: 3000 };
 const prodConfig = { port: 4000 };
@@ -49,13 +47,13 @@ const prodConfig = { port: 4000 };
 })
 export class AppModule implements NestModule {
   constructor(private readonly datasource: DataSource) {
-    // console.log('dbName:', datasource.driver.database);
+    // Logger.log('dbName:', datasource.driver.database);
   }
   configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(LoggerMiddleware).forRoutes('songs'); // * option 1
+    consumer.apply(LoggerMiddleware).forRoutes('*'); // * option 1
     // consumer
     //   .apply(LoggerMiddleware)
     //   .forRoutes({ path: 'songs', method: RequestMethod.POST }); // * option 2
-    consumer.apply(LoggerMiddleware).forRoutes(SongsController); // * option 3
+    // consumer.apply(LoggerMiddleware).forRoutes(SongsController); // * option 3
   }
 }
