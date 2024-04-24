@@ -9,6 +9,7 @@ import { DevConfigService } from './common/providers/dev-config.service/dev-conf
 import { PlaylistsModule } from './resources/playlists/playlists.module';
 import { SongsModule } from './resources/songs/songs.module';
 import { UsersModule } from './resources/users/users.module';
+import { ArtistsModule } from './resources/artists/artists.module';
 
 const devConfig = { port: 3000 };
 const prodConfig = { port: 4000 };
@@ -43,6 +44,7 @@ const prodConfig = { port: 4000 };
     PlaylistsModule,
     AuthModule,
     UsersModule,
+    ArtistsModule,
   ], // repositories, services and factories
 })
 export class AppModule implements NestModule {

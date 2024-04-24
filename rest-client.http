@@ -4,13 +4,13 @@
 ### Hello World!
 GET http://localhost:3000/
 
-### findAll
+### Songs findAll
 GET http://localhost:3000/songs?page=1&limit=2
 
-### findById
+### Songs - findById
 GET http://localhost:3000/songs/3
 
-### create
+### Songs - Create
 POST http://localhost:3000/songs
 Content-Type: application/json
 
@@ -22,7 +22,7 @@ Content-Type: application/json
     "lyrics": ""
 }
 
-### updateById
+### Songs - updateById
 PUT http://localhost:3000/songs/1
 Content-Type: application/json
 

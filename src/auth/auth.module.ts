@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JWTStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from 'src/resources/users/users.module';
+import { ArtistsModule } from 'src/resources/artists/artists.module';
 
 @Module({
   providers: [AuthService, JWTStrategy],
@@ -13,7 +14,7 @@ import { UsersModule } from 'src/resources/users/users.module';
   exports: [AuthService],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    UsersModule,
+
     JwtModule.registerAsync({
       imports: [ConfigModule], // Make ConfigModule available
       inject: [ConfigService], // Inject ConfigService
@@ -27,7 +28,8 @@ import { UsersModule } from 'src/resources/users/users.module';
         },
       }),
     }),
-    // PassportModule,
+    UsersModule,
+    ArtistsModule,
   ],
 })
 export class AuthModule {}

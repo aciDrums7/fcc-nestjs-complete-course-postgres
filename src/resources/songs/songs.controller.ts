@@ -12,14 +12,16 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { CreateSongDTO } from './dto/create-song.dto';
 import { UpdateSongDTO } from './dto/update-song.dto';
 import { Song } from './song.entity';
 import { SongsService } from './songs.service';
+import { ArtistsJwtGuard } from 'src/auth/guards/artists-jwt/artists-jwt.guard';
 
 // ? With Scope.REQUEST, a new instance is instantiated for each request processing pipeline
 @Controller({ path: 'songs' /* , scope: Scope.DEFAULT */ })
@@ -67,11 +69,15 @@ export class SongsController {
   }
 
   @Post()
+  @UseGuards(ArtistsJwtGuard)
+  @ApiBearerAuth()
   async create(@Body() createSongDTO: CreateSongDTO): Promise<Song> {
     return await this.songsService.create(createSongDTO);
   }
 
   @Put(':id')
+  @UseGuards(ArtistsJwtGuard)
+  @ApiBearerAuth()
   update(
     @Param('id', ParseIntPipe)
     id: number,
@@ -81,6 +87,8 @@ export class SongsController {
   }
 
   @Delete(':id')
+  @UseGuards(ArtistsJwtGuard)
+  @ApiBearerAuth()
   async delete(
     @Param('id', ParseIntPipe)
     id: number,
