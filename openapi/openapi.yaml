@@ -53,6 +53,8 @@ paths:
           description: ""
       tags:
         - songs
+      security:
+        - bearer: []
   /api/v1/songs/{id}:
     get:
       operationId: SongsController_findOne
@@ -86,6 +88,8 @@ paths:
           description: ""
       tags:
         - songs
+      security:
+        - bearer: []
     delete:
       operationId: SongsController_delete
       parameters:
@@ -99,6 +103,8 @@ paths:
           description: ""
       tags:
         - songs
+      security:
+        - bearer: []
   /api/v1/playlists:
     post:
       operationId: PlaylistsController_create
