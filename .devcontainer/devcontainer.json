@@ -1,27 +1,46 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node-postgres
 {
-	"name": "NestJS Complete Course",
+	"name": "freeCodeCamp NestJS - Complete Course",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-	"features": {
-		"ghcr.io/devcontainers-contrib/features/nestjs-cli:2": {},
-		"ghcr.io/devcontainers-contrib/features/pnpm:2": {},
-		"ghcr.io/devcontainers-contrib/features/prisma:2": {},
-	},
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/pnpm:2": {},
+		"ghcr.io/joshuanianji/devcontainer-features/mount-pnpm-store:1": {},
+		"ghcr.io/devcontainers-contrib/features/nestjs-cli:2": {},
+		"ghcr.io/devcontainers/features/java:1": {},
+		"ghcr.io/devcontainers-contrib/features/prettier:1": {},
+		"ghcr.io/devcontainers-contrib/features/prisma:2": {}
+	},
+	"overrideFeatureInstallOrder": [
+		"ghcr.io/devcontainers-contrib/features/pnpm",
+		"ghcr.io/joshuanianji/devcontainer-features/mount-pnpm-store"
+	],
+	// "mounts": [
+	// 	"source=global-pnpm-store,target=${containerWorkspaceFolder}/.pnpm-store,type=volume"
+	// ],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// This can be used to network with other containers or with the host.
+	"portsAttributes": {
+		"3000": {
+			"label": "NestJS",
+			"onAutoForward": "silent"
+		},
+		"5432": {
+			"label": "PostgreSQL",
+			"onAutoForward": "notify"
+		}
+	},
 	"forwardPorts": [
 		3000,
 		5432
-	]
+	],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "yarn install",
+	"postCreateCommand": "npm install -g npm@latest pnpm @openapitools/openapi-generator-cli && pnpm install"
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "aciDrums7"
 	// Configure tool-specific properties.
 	// "customizations": {},
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
 }
