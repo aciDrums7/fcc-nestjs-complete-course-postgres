@@ -11,6 +11,7 @@ import { ArtistsModule } from './resources/artists/artists.module';
 import { PlaylistsModule } from './resources/playlists/playlists.module';
 import { SongsModule } from './resources/songs/songs.module';
 import { UsersModule } from './resources/users/users.module';
+import { SeedModule } from './seed/seed.module';
 
 const devConfig = { port: 3000 };
 const prodConfig = { port: 4000 };
@@ -37,6 +38,7 @@ const prodConfig = { port: 4000 };
     AuthModule,
     UsersModule,
     ArtistsModule,
+    SeedModule,
   ], // repositories, services and factories
 })
 export class AppModule implements NestModule {

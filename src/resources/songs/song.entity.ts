@@ -20,8 +20,8 @@ export class Song {
   @Column({ type: 'date', nullable: false })
   releaseDate: Date;
 
-  @Column({ type: 'time', nullable: false })
-  duration: Date;
+  @Column({ type: 'interval', nullable: false })
+  duration: string;
 
   @Column({ type: 'text', nullable: true })
   lyrics: string;

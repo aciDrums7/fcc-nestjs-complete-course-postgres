@@ -17,8 +17,8 @@ export class User {
   @Column({ type: 'text', nullable: false, unique: true })
   email: string;
 
-  // @Column({ type: 'text', nullable: true })
-  // phone?: string;
+  @Column({ type: 'text', nullable: true })
+  phone?: string;
 
   @Column({ type: 'text', nullable: false })
   @Exclude()

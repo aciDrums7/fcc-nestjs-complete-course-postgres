@@ -5,6 +5,7 @@ import { OpenApiNestFactory } from 'nest-openapi-tools';
 import 'reflect-metadata';
 import { generateOpenapiOptions } from './openapi/openapi-options';
 import { AppModule } from './app.module';
+import { SeedService } from './seed/seed.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { snapshot: true });
@@ -15,6 +16,9 @@ async function bootstrap() {
   const API_VERSION = configService.get<string>('API_VERSION', 'v1');
 
   app.useGlobalPipes(new ValidationPipe());
+  const seedService = app.get(SeedService);
+  await seedService.seed();
+
   app.setGlobalPrefix(`api/${API_VERSION}`, {
     exclude: [{ path: 'health', method: RequestMethod.GET }],
   });

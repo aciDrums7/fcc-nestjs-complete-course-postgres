@@ -12,6 +12,7 @@
     "migration:generate": "pnpm run build && pnpm run typeorm migration:generate",
     "migration:run": "pnpm run typeorm migration:run",
     "migration:revert": "pnpm run typeorm migration:revert",
+    "migration:show": "pnpm run typeorm migration:show",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -28,6 +29,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",

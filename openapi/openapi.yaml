@@ -250,6 +250,8 @@ components:
           type: string
         email:
           type: string
+        phone:
+          type: string
         playlists:
           type: array
           items:
@@ -289,7 +291,6 @@ components:
           format: date-time
           type: string
         duration:
-          format: date-time
           type: string
         lyrics:
           type: string
@@ -338,7 +339,6 @@ components:
           format: date-time
           type: string
         duration:
-          format: date-time
           type: string
         lyrics:
           type: string
@@ -361,7 +361,6 @@ components:
           format: date-time
           type: string
         duration:
-          format: date-time
           type: string
         lyrics:
           type: string

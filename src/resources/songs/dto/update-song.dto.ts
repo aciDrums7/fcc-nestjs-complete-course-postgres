@@ -24,7 +24,7 @@ export class UpdateSongDTO {
 
   @IsOptional()
   @IsMilitaryTime()
-  readonly duration: Date;
+  readonly duration: string;
 
   @IsString()
   @IsOptional()
