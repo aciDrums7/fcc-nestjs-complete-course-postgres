@@ -1,10 +1,10 @@
 import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule } from '@nestjs/swagger';
+import { OpenApiNestFactory } from 'nest-openapi-tools';
 import 'reflect-metadata';
+import { generateOpenapiOptions } from './openapi/openapi-options';
 import { AppModule } from './app.module';
-import { generateClientOptions } from './generate-client-options';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { snapshot: true });
@@ -19,17 +19,24 @@ async function bootstrap() {
     exclude: [{ path: 'health', method: RequestMethod.GET }],
   });
 
-  const { documentBuilder, swaggerOptions } =
-    generateClientOptions(API_VERSION);
+  const { documentBuilder, openApiOptions, swaggerOptions } =
+    generateOpenapiOptions(API_VERSION, true, false, true);
 
   // ? In order to create a full document (with all HTTP routes defined)
   // ? we use the createDocument() method of the SwaggerModule class
-  const document = SwaggerModule.createDocument(
+  // const document = SwaggerModule.createDocument(
+  //   app,
+  //   documentBuilder.build(),
+  //   swaggerOptions,
+  // );
+  // SwaggerModule.setup(`${API_VERSION}/api-docs`, app, document);
+
+  await OpenApiNestFactory.configure(
     app,
-    documentBuilder.build(),
+    documentBuilder,
+    openApiOptions,
     swaggerOptions,
   );
-  SwaggerModule.setup(`${API_VERSION}/api-docs`, app, document);
 
   await app.listen(PORT);
   Logger.log(`Application is running on: http://localhost:${PORT}`);

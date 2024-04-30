@@ -36,7 +36,7 @@ const prodConfig = { port: 4000 };
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'spotify-clone',
+      database: 'fcc-nestjs-spotify-clone',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),

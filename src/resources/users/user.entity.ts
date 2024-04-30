@@ -26,7 +26,13 @@ export class User {
   @OneToMany(() => Playlist, (playlist) => playlist.user)
   playlists: Playlist[];
 
-  //   @OneToOne(() => Artist)
-  //   @JoinColumn()
-  //   artist: Artist;
+  @Column({ type: 'text', nullable: true })
+  @Exclude()
+  @ApiHideProperty()
+  secret2FA: string;
+
+  @Column({ type: 'boolean', default: false })
+  @Exclude()
+  @ApiHideProperty()
+  enable2FA: boolean;
 }

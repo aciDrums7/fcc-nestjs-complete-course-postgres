@@ -3,7 +3,12 @@ import { OpenApiOptions } from 'nest-openapi-tools';
 
 //* https://medium.com/@christianinyekaka/step-by-step-guide-adding-openapi-documentation-to-your-nestjs-api-c210754ad905
 //* https://www.npmjs.com/package/nest-openapi-tools
-export function generateClientOptions(API_VERSION: string) {
+export function generateOpenapiOptions(
+  API_VERSION: string,
+  includeManifest: boolean,
+  includeClient: boolean,
+  startWebServer: boolean,
+) {
   // ? The DocumentBuilder helps to structure a base document that conforms to the OpenAPI Specification
   const documentBuilder: DocumentBuilder = new DocumentBuilder()
     .setTitle('Spotify Clone API')
@@ -14,15 +19,15 @@ export function generateClientOptions(API_VERSION: string) {
 
   const openApiOptions: OpenApiOptions = {
     webServerOptions: {
-      enabled: false,
+      enabled: startWebServer,
       path: `api-docs/${API_VERSION}`,
     },
     fileGeneratorOptions: {
-      enabled: true,
+      enabled: includeManifest,
       outputFilePath: 'openapi/openapi.yaml', // or ./openapi.json
     },
     clientGeneratorOptions: {
-      enabled: true,
+      enabled: includeClient,
       type: 'typescript-axios',
       outputFolderPath: 'openapi/typescript-api-client/src',
       additionalProperties: [
@@ -35,11 +40,12 @@ export function generateClientOptions(API_VERSION: string) {
         'enablePostProcessFile=true',
       ].join(','),
       openApiFilePath: 'openapi/openapi.yaml', // or ./openapi.json
-      skipValidation: false, // optional, false by default
+      // skipValidation: false, // optional, false by default
     },
   };
 
   const swaggerOptions: SwaggerDocumentOptions = {
+    // deepScanRoutes: true,
     operationIdFactory: (controllerKey: string, methodKey: string) =>
       `${controllerKey}_${methodKey}`,
   };

@@ -1,8 +1,8 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { AppService } from './app.service';
-import { JwtAuthGuard } from './auth/guards/jwt-auth/jwt-auth.guard';
-import { Request } from 'express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AppService } from './app.service';
+import { RequestWithUserDTO } from './auth/dto/request-with.user.dto';
+import { JwtAuthGuard } from './auth/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('/')
 //* https://docs.nestjs.com/openapi/decorators
@@ -18,7 +18,7 @@ export class AppController {
   @Get('current-user')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  getProfile(@Req() req: Request) {
-    return req.user;
+  getProfile(@Req() req: RequestWithUserDTO) {
+    return req.user.id;
   }
 }

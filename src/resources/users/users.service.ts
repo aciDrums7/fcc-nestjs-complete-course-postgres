@@ -32,6 +32,16 @@ export class UsersService {
     createUserDTO.password = hash;
     const user = await this.userRepository.save(createUserDTO);
     delete user.password;
+    delete user.secret2FA;
+    delete user.enable2FA;
+    return user;
+  }
+
+  async findOneById(id: number): Promise<User> {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new UnauthorizedException('Could not find user');
+    }
     return user;
   }
 
@@ -41,5 +51,22 @@ export class UsersService {
       throw new UnauthorizedException('Could not find user');
     }
     return user;
+  }
+
+  async updateSecretKey(userId: number, secretKey: string) {
+    if (!this.userRepository.findOneBy({ id: userId })) {
+      throw new UnauthorizedException('Could not find user');
+    }
+    return this.userRepository.update(
+      { id: userId },
+      { secret2FA: secretKey, enable2FA: true },
+    );
+  }
+
+  async disable2FA(userId: number) {
+    return this.userRepository.update(
+      { id: userId },
+      { enable2FA: false, secret2FA: null },
+    );
   }
 }

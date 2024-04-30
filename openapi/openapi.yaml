@@ -7,6 +7,10 @@ paths:
       responses:
         "200":
           description: ""
+          content:
+            application/json:
+              schema:
+                type: string
       tags:
         - app
   /api/v1/current-user:
@@ -16,6 +20,10 @@ paths:
       responses:
         "200":
           description: ""
+          content:
+            application/json:
+              schema:
+                type: number
       tags:
         - app
       security:
@@ -51,6 +59,10 @@ paths:
       responses:
         "201":
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Song"
       tags:
         - songs
       security:
@@ -67,6 +79,10 @@ paths:
       responses:
         "200":
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Song"
       tags:
         - songs
     put:
@@ -118,6 +134,10 @@ paths:
       responses:
         "201":
           description: ""
+          content:
+            application/json:
+              schema:
+                type: object
       tags:
         - playlists
   /api/v1/auth/signup:
@@ -133,6 +153,10 @@ paths:
       responses:
         "201":
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
       tags:
         - auth
   /api/v1/auth/login:
@@ -145,6 +169,47 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/LoginDTO"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+        - auth
+  /api/v1/auth/enable-2fa:
+    post:
+      operationId: AuthController_enable2FA
+      parameters: []
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+        - auth
+  /api/v1/auth/validate-2fa:
+    post:
+      operationId: AuthController_validate2FA
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValidateOtpDTO"
+      responses:
+        "201":
+          description: ""
+      tags:
+        - auth
+  /api/v1/auth/disable-2fa:
+    post:
+      operationId: AuthController_disable2FA
+      parameters: []
       responses:
         "201":
           description: ""
@@ -165,18 +230,183 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        playlists:
+          type: array
+          items:
+            $ref: "#/components/schemas/Playlist"
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - playlists
+    Artist:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        songs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Song"
+      required:
+        - id
+        - name
+        - user
+        - songs
+    Song:
+      type: object
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+        releaseDate:
+          format: date-time
+          type: string
+        duration:
+          format: date-time
+          type: string
+        lyrics:
+          type: string
+        playlist:
+          $ref: "#/components/schemas/Playlist"
+        artists:
+          type: array
+          items:
+            $ref: "#/components/schemas/Artist"
+      required:
+        - id
+        - title
+        - releaseDate
+        - duration
+        - lyrics
+        - playlist
+        - artists
+    Playlist:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        songs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Song"
+        user:
+          $ref: "#/components/schemas/User"
+      required:
+        - id
+        - name
+        - songs
+        - user
     CreateSongDTO:
       type: object
-      properties: {}
+      properties:
+        title:
+          type: string
+        artistsIds:
+          type: array
+          items:
+            type: number
+        releaseDate:
+          format: date-time
+          type: string
+        duration:
+          format: date-time
+          type: string
+        lyrics:
+          type: string
+      required:
+        - title
+        - artistsIds
+        - releaseDate
+        - duration
+        - lyrics
     UpdateSongDTO:
       type: object
-      properties: {}
+      properties:
+        title:
+          type: string
+        artistsIds:
+          type: array
+          items:
+            type: number
+        releaseDate:
+          format: date-time
+          type: string
+        duration:
+          format: date-time
+          type: string
+        lyrics:
+          type: string
+      required:
+        - title
+        - artistsIds
+        - releaseDate
+        - duration
+        - lyrics
     CreatePlaylistDTO:
       type: object
-      properties: {}
+      properties:
+        name:
+          type: string
+        songsIds:
+          type: array
+          items:
+            type: number
+        userId:
+          type: number
+      required:
+        - name
+        - songsIds
+        - userId
     CreateUserDTO:
       type: object
-      properties: {}
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
     LoginDTO:
       type: object
-      properties: {}
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    ValidateOtpDTO:
+      type: object
+      properties:
+        otp:
+          type: string
+      required:
+        - otp
