@@ -4,11 +4,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './user.entity';
-import { CreateUserDTO } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { LoginDTO } from 'src/auth/dto/login.dto';
+import { Repository } from 'typeorm';
+import { v4 as uuid4 } from 'uuid';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
@@ -28,13 +29,15 @@ export class UsersService {
       );
     }
     const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(createUserDTO.password, salt);
-    createUserDTO.password = hash;
-    const user = await this.userRepository.save(createUserDTO);
-    delete user.password;
-    delete user.secret2FA;
-    delete user.enable2FA;
-    return user;
+    const hashedPassword = await bcrypt.hash(createUserDTO.password, salt);
+    createUserDTO.password = hashedPassword;
+    const userEntity = { ...createUserDTO, apiKey: uuid4() } as User;
+
+    const savedUser = await this.userRepository.save(userEntity);
+    delete savedUser.password;
+    delete savedUser.secret2FA;
+    delete savedUser.enable2FA;
+    return savedUser;
   }
 
   async findOneById(id: number): Promise<User> {
@@ -68,5 +71,13 @@ export class UsersService {
       { id: userId },
       { enable2FA: false, secret2FA: null },
     );
+  }
+
+  async findOneByApiKey(apiKey: string): Promise<User> {
+    const user = await this.userRepository.findOneBy({ apiKey });
+    if (!user) {
+      throw new UnauthorizedException('Could not find user');
+    }
+    return user;
   }
 }

@@ -21,7 +21,7 @@ import { CreateSongDTO } from './dto/create-song.dto';
 import { UpdateSongDTO } from './dto/update-song.dto';
 import { Song } from './song.entity';
 import { SongsService } from './songs.service';
-import { ArtistsJwtGuard } from 'src/auth/guards/artists-jwt/artists-jwt.guard';
+import { ArtistsJwtAuthGuard } from 'src/auth/guards/artists-jwt/artists-jwt-auth.guard';
 
 // ? With Scope.REQUEST, a new instance is instantiated for each request processing pipeline
 @Controller({ path: 'songs' /* , scope: Scope.DEFAULT */ })
@@ -69,14 +69,14 @@ export class SongsController {
   }
 
   @Post()
-  @UseGuards(ArtistsJwtGuard)
+  @UseGuards(ArtistsJwtAuthGuard)
   @ApiBearerAuth()
   async create(@Body() createSongDTO: CreateSongDTO): Promise<Song> {
     return await this.songsService.create(createSongDTO);
   }
 
   @Put(':id')
-  @UseGuards(ArtistsJwtGuard)
+  @UseGuards(ArtistsJwtAuthGuard)
   @ApiBearerAuth()
   update(
     @Param('id', ParseIntPipe)
@@ -87,7 +87,7 @@ export class SongsController {
   }
 
   @Delete(':id')
-  @UseGuards(ArtistsJwtGuard)
+  @UseGuards(ArtistsJwtAuthGuard)
   @ApiBearerAuth()
   async delete(
     @Param('id', ParseIntPipe)

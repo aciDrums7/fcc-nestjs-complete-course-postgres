@@ -35,4 +35,9 @@ export class User {
   @Exclude()
   @ApiHideProperty()
   enable2FA: boolean;
+
+  @Column({ type: 'text', nullable: true })
+  @Exclude()
+  @ApiHideProperty()
+  apiKey: string;
 }

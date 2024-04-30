@@ -8,6 +8,7 @@ import { IdTokenGrants } from './types/id-token-grants.type';
 import { Enable2FA } from './types/enable-2fa.type';
 import * as speakeasy from 'speakeasy';
 import { UpdateResult } from 'typeorm';
+import { User } from 'src/resources/users/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -76,5 +77,9 @@ export class AuthService {
 
   async disable2FA(userId: number): Promise<UpdateResult> {
     return this.usersService.disable2FA(userId);
+  }
+
+  validateUserByApiKey(apiKey: string): Promise<User> {
+    return this.usersService.findOneByApiKey(apiKey);
   }
 }

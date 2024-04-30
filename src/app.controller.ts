@@ -1,7 +1,7 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { RequestWithUserDTO } from './auth/dto/request-with.user.dto';
+import { PassportRequest } from './auth/dto/request-with.user.dto';
 import { JwtAuthGuard } from './auth/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('/')
@@ -18,7 +18,7 @@ export class AppController {
   @Get('current-user')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  getProfile(@Req() req: RequestWithUserDTO) {
+  getProfile(@Req() req: PassportRequest) {
     return req.user.id;
   }
 }

@@ -9,7 +9,10 @@ import { Observable } from 'rxjs';
 import { RequestUser } from 'src/auth/types/request-user.type';
 
 @Injectable()
-export class ArtistsJwtGuard extends AuthGuard('jwt') implements CanActivate {
+export class ArtistsJwtAuthGuard
+  extends AuthGuard('jwt')
+  implements CanActivate
+{
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {

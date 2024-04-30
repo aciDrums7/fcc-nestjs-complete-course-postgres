@@ -215,6 +215,15 @@ paths:
           description: ""
       tags:
         - auth
+  /api/v1/auth/validate-api-key:
+    get:
+      operationId: AuthController_validateApiKey
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - auth
 info:
   title: Spotify Clone API
   description: freeCodeCamp - NestJS Complete Course API

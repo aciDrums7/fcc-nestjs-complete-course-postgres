@@ -1,5 +1,5 @@
 import { RequestUser } from '../types/request-user.type';
 
-export interface RequestWithUserDTO extends Request {
+export interface PassportRequest extends Request {
   user: RequestUser;
 }
