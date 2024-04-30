@@ -2,6 +2,7 @@
 
 services:
   app:
+    container_name: nestjs-app
     build:
       context: .
       dockerfile: Dockerfile
@@ -19,6 +20,7 @@ services:
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
   db:
+    container_name: postgresql
     image: postgres:latest
     restart: unless-stopped
     volumes:
