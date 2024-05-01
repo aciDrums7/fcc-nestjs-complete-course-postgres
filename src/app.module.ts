@@ -8,12 +8,13 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
 import { DevConfigService } from './common/providers/dev-config.service/dev-config.service';
-import configuration from './config/configuration';
+import configuration from './config/env.configuration';
 import { ArtistsModule } from './resources/artists/artists.module';
 import { PlaylistsModule } from './resources/playlists/playlists.module';
 import { SongsModule } from './resources/songs/songs.module';
 import { UsersModule } from './resources/users/users.module';
 import { SeedModule } from './seed/seed.module';
+import { validate } from './common/validators/env.validation';
 
 @Module({
   //? import and export other modules, following encapsulation
@@ -31,8 +32,9 @@ import { SeedModule } from './seed/seed.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.dev', '.env.prod'],
+      envFilePath: ['.env.dev' /* , '.env.prod' */],
       load: [configuration],
+      validate: validate,
     }),
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     SongsModule,

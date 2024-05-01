@@ -1,4 +1,5 @@
 export default () => ({
+  env: process.env.NODE_ENV,
   apiVersion: process.env.API_VERSION,
   port: parseInt(process.env.PORT, 10) || 3000,
   jwt: {

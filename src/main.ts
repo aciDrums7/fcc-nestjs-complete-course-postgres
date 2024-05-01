@@ -2,6 +2,7 @@ import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { OpenApiNestFactory } from 'nest-openapi-tools';
+// import 'reflect-metadata';
 import { AppModule } from './app.module';
 import { generateOpenapiOptions } from './openapi/openapi-options';
 
