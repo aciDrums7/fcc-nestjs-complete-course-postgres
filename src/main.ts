@@ -5,6 +5,7 @@ import { OpenApiNestFactory } from 'nest-openapi-tools';
 // import 'reflect-metadata';
 import { AppModule } from './app.module';
 import { generateOpenapiOptions } from './openapi/openapi-options';
+declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule /* , { snapshot: true } */);
@@ -42,6 +43,11 @@ async function bootstrap() {
   );
 
   await app.listen(PORT);
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
   Logger.log(`Application is running on: http://localhost:${PORT}`);
 }
 // ? this is called by nest start

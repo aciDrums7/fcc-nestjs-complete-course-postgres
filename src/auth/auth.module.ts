@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import 'dotenv/config';
 import { ArtistsModule } from 'src/resources/artists/artists.module';
 import { UsersModule } from 'src/resources/users/users.module';
 import { AuthController } from './auth.controller';
