@@ -2,22 +2,20 @@ import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { OpenApiNestFactory } from 'nest-openapi-tools';
-import 'reflect-metadata';
-import { generateOpenapiOptions } from './openapi/openapi-options';
 import { AppModule } from './app.module';
-import { SeedService } from './seed/seed.service';
+import { generateOpenapiOptions } from './openapi/openapi-options';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { snapshot: true });
+  const app = await NestFactory.create(AppModule /* , { snapshot: true } */);
 
   // Use ConfigService to access environment variables
   const configService = app.get(ConfigService);
-  const PORT = configService.get<number>('PORT', 3000);
-  const API_VERSION = configService.get<string>('API_VERSION', 'v1');
+  const PORT = configService.get<number>('port');
+  const API_VERSION = configService.get<string>('apiVersion');
 
   app.useGlobalPipes(new ValidationPipe());
-  const seedService = app.get(SeedService);
-  await seedService.seed();
+  // const seedService = app.get(SeedService);
+  // await seedService.seed();
 
   app.setGlobalPrefix(`api/${API_VERSION}`, {
     exclude: [{ path: 'health', method: RequestMethod.GET }],

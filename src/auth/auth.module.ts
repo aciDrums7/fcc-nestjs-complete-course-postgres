@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import 'dotenv/config';
 import { ArtistsModule } from 'src/resources/artists/artists.module';
@@ -14,17 +14,13 @@ import { JWTStrategy } from './strategies/jwt.strategy';
   controllers: [AuthController],
   exports: [AuthService],
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.registerAsync({
-      imports: [ConfigModule], // Make ConfigModule available
+      // imports: [ConfigModule],
       inject: [ConfigService], // Inject ConfigService
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>(
-          'JWT_SECRET',
-          '9f8d2e207e45a8deadb4cff8e',
-        ),
+        secret: configService.get<string>('jwt.secret'),
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRATION_TIME', '1h'),
+          expiresIn: configService.get<string>('jwt.expiresIn', '1h'),
         },
       }),
     }),

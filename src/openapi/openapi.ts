@@ -13,7 +13,7 @@ async function generateOpenapi() {
 
   // Use ConfigService to access environment variables
   const configService = app.get(ConfigService);
-  const API_VERSION = configService.get<string>('API_VERSION', 'v1');
+  const API_VERSION = configService.get<string>('apiVersion');
 
   app.setGlobalPrefix(`api/${API_VERSION}`, {
     exclude: [{ path: 'health', method: RequestMethod.GET }],

@@ -11,7 +11,7 @@ export class AppService {
   getHello(): string {
     return `Hello World!\n
     DBHOST: ${this.devConfigService.getDBHOST()}
-    CONFIG: ${this.config.port}
+    CONFIG: ${this.config.PORT}
     `;
   }
 }
