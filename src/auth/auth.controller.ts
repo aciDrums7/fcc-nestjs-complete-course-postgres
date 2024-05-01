@@ -8,7 +8,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateUserDTO } from 'src/resources/users/dto/create-user.dto';
 import { User } from 'src/resources/users/user.entity';
 import { UsersService } from 'src/resources/users/users.service';
@@ -29,7 +29,6 @@ export class AuthController {
     private readonly userService: UsersService,
   ) {}
 
-  @Post('/signup')
   signup(@Body() createUserDTO: CreateUserDTO): Promise<User> {
     try {
       return this.userService.create(createUserDTO);
@@ -41,7 +40,9 @@ export class AuthController {
   }
 
   @Post('/login')
-  login(@Body() loginDTO: LoginDTO) {
+  login(
+    @Body() loginDTO: LoginDTO,
+  ): Promise<{ idToken: string } | { validate2FA: string; message: string }> {
     try {
       return this.authService.login(loginDTO);
     } catch (e) {
@@ -52,12 +53,14 @@ export class AuthController {
   }
 
   @Post('/enable-2fa')
+  @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
   enable2FA(@Req() req: PassportRequest): Promise<Enable2FA> {
     return this.authService.enable2FA(req.user.id);
   }
 
   @Post('validate-2fa')
+  @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
   validate2FA(
     @Req() req: PassportRequest,
@@ -67,6 +70,7 @@ export class AuthController {
   }
 
   @Post('disable-2fa')
+  @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
   disable2FA(@Req() req: PassportRequest): Promise<UpdateResult> {
     return this.authService.disable2FA(req.user.id);

@@ -16,9 +16,9 @@ export class AppController {
   }
 
   @Get('current-user')
+  @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
   getProfile(@Req() req: PassportRequest) {
-    return req.user.id;
+    return req.user;
   }
 }

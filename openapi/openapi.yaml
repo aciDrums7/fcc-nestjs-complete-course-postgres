@@ -23,11 +23,11 @@ paths:
           content:
             application/json:
               schema:
-                type: number
+                type: object
       tags:
         - app
       security:
-        - bearer: []
+        - JWT-auth: []
   /api/v1/songs:
     get:
       operationId: SongsController_findAll
@@ -140,25 +140,6 @@ paths:
                 type: object
       tags:
         - playlists
-  /api/v1/auth/signup:
-    post:
-      operationId: AuthController_signup
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateUserDTO"
-      responses:
-        "201":
-          description: ""
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-      tags:
-        - auth
   /api/v1/auth/login:
     post:
       operationId: AuthController_login
@@ -191,6 +172,8 @@ paths:
                 type: object
       tags:
         - auth
+      security:
+        - JWT-auth: []
   /api/v1/auth/validate-2fa:
     post:
       operationId: AuthController_validate2FA
@@ -206,6 +189,8 @@ paths:
           description: ""
       tags:
         - auth
+      security:
+        - JWT-auth: []
   /api/v1/auth/disable-2fa:
     post:
       operationId: AuthController_disable2FA
@@ -215,6 +200,8 @@ paths:
           description: ""
       tags:
         - auth
+      security:
+        - JWT-auth: []
   /api/v1/auth/validate-api-key:
     get:
       operationId: AuthController_validateApiKey
@@ -238,29 +225,54 @@ components:
       scheme: bearer
       bearerFormat: JWT
       type: http
+      description: Enter JWT token
+      name: JWT
+      in: header
   schemas:
     User:
       type: object
       properties:
-        id:
-          type: number
         firstName:
           type: string
+          example: John
+          description: Provide the first name of the user
         lastName:
           type: string
+          example: Belusci
+          description: Provide the last name of the user
         email:
           type: string
+          example: john@belusci.com
+          description: Provide the email of the user
         phone:
+          type: string
+          example: +1 123-456-7890
+          description: Provide the phone number of the user
+        password:
+          type: string
+          example: Password1!
+          description: Provide the password of the user
+        id:
+          type: number
+        secret2FA:
+          type: string
+        enable2FA:
+          type: boolean
+        apiKey:
           type: string
         playlists:
           type: array
           items:
             $ref: "#/components/schemas/Playlist"
       required:
-        - id
         - firstName
         - lastName
         - email
+        - password
+        - id
+        - secret2FA
+        - enable2FA
+        - apiKey
         - playlists
     Artist:
       type: object

@@ -15,7 +15,14 @@ export function generateOpenapiOptions(
     .setDescription('freeCodeCamp - NestJS Complete Course API')
     .setVersion('1.0')
     .addServer('http://localhost:3000')
-    .addBearerAuth();
+    .addBearerAuth({
+      type: 'http',
+      description: 'Enter JWT token',
+      name: 'JWT',
+      in: 'header',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    });
 
   const openApiOptions: OpenApiOptions = {
     webServerOptions: {
