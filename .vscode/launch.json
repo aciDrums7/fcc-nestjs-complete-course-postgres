@@ -1,14 +1,22 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug NestJS",
-            "port": 9229,
-            "request": "attach",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "node"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "NestJS - Run Debug",
+      "request": "launch",
+      "runtimeArgs": ["run", "debug"],
+      "runtimeExecutable": "pnpm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "NestJS - Attach Debugger",
+      "port": 9229,
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node",
+      "console": "integratedTerminal"
+    }
+  ]
 }

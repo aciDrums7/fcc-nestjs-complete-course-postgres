@@ -15,16 +15,16 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
-    private readonly artistsService: ArtistsService,
+    private readonly artistsService: ArtistsService
   ) {}
 
   async login(
-    loginDTO: LoginDTO,
+    loginDTO: LoginDTO
   ): Promise<{ idToken: string } | { validate2FA: string; message: string }> {
     const user = await this.usersService.findOne(loginDTO);
     const isPasswordMatching = await bcrypt.compare(
       loginDTO.password,
-      user.password,
+      user.password
     );
     if (!isPasswordMatching) {
       throw new UnauthorizedException('Password does not match');
@@ -56,7 +56,7 @@ export class AuthService {
 
   async validateOtp(
     userId: number,
-    otp: string,
+    otp: string
   ): Promise<{ verified: boolean }> {
     const user = await this.usersService.findOneById(userId);
     try {

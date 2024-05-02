@@ -1,20 +1,20 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmAsyncConfig } from 'db/data-source';
+import { typeOrmAsyncConfig } from 'src/db/data-source';
 import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
-import { DevConfigService } from './common/providers/dev-config.service/dev-config.service';
-import configuration from './config/env.configuration';
+import { DevConfigService } from './common/providers/dev-config/dev-config.service';
+import { validate } from './common/validators/env.validation';
+import configuration from './config/env.config';
 import { ArtistsModule } from './resources/artists/artists.module';
 import { PlaylistsModule } from './resources/playlists/playlists.module';
 import { SongsModule } from './resources/songs/songs.module';
 import { UsersModule } from './resources/users/users.module';
 import { SeedModule } from './seed/seed.module';
-import { validate } from './common/validators/env.validation';
 
 @Module({
   //? import and export other modules, following encapsulation

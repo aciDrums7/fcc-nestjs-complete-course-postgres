@@ -10,10 +10,11 @@ export default () => ({
     type: process.env.DB_TYPE || 'postgres',
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT, 10) || 5432,
-    name: process.env.DB_NAME || 'fcc-nestjs-spotify-clone-migration',
+    name: process.env.DB_NAME || 'spotify-clone',
     username: process.env.DB_USERNAME || 'postgres',
     password: process.env.DB_PASSWORD || 'postgres',
   },
+  openapiPath: process.env.OPENAPI_PATH || './openapi',
   tsPostProcessFile:
     process.env.TS_POST_PROCESS_FILE ||
     '"/usr/local/share/npm-global/bin/prettier --write"',

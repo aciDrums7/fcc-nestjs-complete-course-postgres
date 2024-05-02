@@ -48,6 +48,9 @@ class EnvironmentVariables {
   DB_PASSWORD: string;
 
   @IsString()
+  OPENAPI_PATH: string;
+
+  @IsString()
   @IsOptional()
   TS_POST_PROCESS_FILE: string;
 }

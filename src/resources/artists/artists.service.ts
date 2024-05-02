@@ -7,7 +7,7 @@ import { Artist } from './artist.entity';
 export class ArtistsService {
   constructor(
     @InjectRepository(Artist)
-    private readonly artistsRepository: Repository<Artist>,
+    private readonly artistsRepository: Repository<Artist>
   ) {}
 
   findOneByUserId(userId: number): Promise<Artist> {

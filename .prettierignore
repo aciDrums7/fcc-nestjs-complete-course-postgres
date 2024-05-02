@@ -1,0 +1,9 @@
+# Git
+.gitignore
+
+# Prettier
+.prettierrc
+.prettierignore
+
+# Husky
+.husky

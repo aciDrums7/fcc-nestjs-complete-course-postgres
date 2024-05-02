@@ -7,7 +7,7 @@ import { Artist } from 'src/resources/artists/artist.entity';
 import { Playlist } from 'src/resources/playlists/playlist.entity';
 import { Song } from 'src/resources/songs/song.entity';
 import { User } from 'src/resources/users/user.entity';
-import { DataSourceOptions } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -15,7 +15,7 @@ export const dataSourceOptions: DataSourceOptions = {
   port: parseInt(process.env.DB_PORT, 10) || 5432,
   username: process.env.DB_USERNAME || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
-  database: process.env.DB_NAME || 'fcc-nestjs-spotify-clone-migration',
+  database: process.env.DB_NAME || 'spotify-clone',
   entities: ['dist/**/*.entity.js'], //1
   synchronize: false, // 2
   migrations: ['dist/db/migrations/*.js'], // 3
@@ -25,7 +25,7 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
   inject: [ConfigService],
   useFactory: async (
-    configService: ConfigService,
+    configService: ConfigService
   ): Promise<TypeOrmModuleOptions> => {
     return {
       type: 'postgres',
@@ -40,3 +40,5 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
     };
   },
 };
+
+export default new DataSource(dataSourceOptions);

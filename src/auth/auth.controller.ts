@@ -26,7 +26,7 @@ import { Enable2FA } from './types/enable-2fa.type';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UsersService,
+    private readonly userService: UsersService
   ) {}
 
   signup(@Body() createUserDTO: CreateUserDTO): Promise<User> {
@@ -41,7 +41,7 @@ export class AuthController {
 
   @Post('/login')
   login(
-    @Body() loginDTO: LoginDTO,
+    @Body() loginDTO: LoginDTO
   ): Promise<{ idToken: string } | { validate2FA: string; message: string }> {
     try {
       return this.authService.login(loginDTO);
@@ -64,7 +64,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   validate2FA(
     @Req() req: PassportRequest,
-    @Body() validate2FADTO: ValidateOtpDTO,
+    @Body() validate2FADTO: ValidateOtpDTO
   ): Promise<{ verified: boolean }> {
     return this.authService.validateOtp(req.user.id, validate2FADTO.otp);
   }

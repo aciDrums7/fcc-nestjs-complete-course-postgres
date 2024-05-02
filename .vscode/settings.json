@@ -20,7 +20,5 @@
     "titleBar.inactiveForeground": "#e7e7e799"
   },
   "peacock.remoteColor": "#c11b41",
-  "yaml.schemas": {
-    "https://json.schemastore.org/yamllint.json": "file:///workspaces/fcc-nestjs-complete-course/openapi/openapi.yaml"
-  }
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

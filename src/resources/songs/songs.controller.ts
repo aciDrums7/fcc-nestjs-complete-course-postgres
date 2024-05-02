@@ -32,7 +32,7 @@ export class SongsController {
   @Get()
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
   ): Promise<Pagination<Song>> {
     try {
       limit = limit > 100 ? 100 : limit;
@@ -47,7 +47,7 @@ export class SongsController {
   @Get(':id')
   async findOne(
     @Param('id', ParseIntPipe)
-    id: number,
+    id: number
   ) {
     try {
       const song = await this.songsService.findOne(id);
@@ -59,7 +59,7 @@ export class SongsController {
       if (e instanceof NotFoundException) {
         throw new HttpException(
           `Song with id ${id} not found`,
-          HttpStatus.NOT_FOUND,
+          HttpStatus.NOT_FOUND
         );
       }
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR, {
@@ -81,7 +81,7 @@ export class SongsController {
   update(
     @Param('id', ParseIntPipe)
     id: number,
-    @Body() updateSongDTO: UpdateSongDTO,
+    @Body() updateSongDTO: UpdateSongDTO
   ): Promise<UpdateResult> {
     return this.songsService.update(id, updateSongDTO);
   }
@@ -91,7 +91,7 @@ export class SongsController {
   @ApiBearerAuth()
   async delete(
     @Param('id', ParseIntPipe)
-    id: number,
+    id: number
   ): Promise<DeleteResult> {
     try {
       return await this.songsService.deleteById(id);

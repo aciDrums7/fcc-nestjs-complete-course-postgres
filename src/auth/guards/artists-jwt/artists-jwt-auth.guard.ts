@@ -14,7 +14,7 @@ export class ArtistsJwtAuthGuard
   implements CanActivate
 {
   canActivate(
-    context: ExecutionContext,
+    context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
     return super.canActivate(context);
   }

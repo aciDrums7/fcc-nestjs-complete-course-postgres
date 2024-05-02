@@ -2,35 +2,34 @@ openapi: 3.0.0
 paths:
   /api/v1:
     get:
-      operationId: AppController_getHello
+      operationId: AppController::getHello
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
                 type: string
-      tags:
+      tags: &a1
         - app
   /api/v1/current-user:
     get:
-      operationId: AppController_getProfile
+      operationId: AppController::getProfile
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
                 type: object
-      tags:
-        - app
+      tags: *a1
       security:
         - JWT-auth: []
   /api/v1/songs:
     get:
-      operationId: SongsController_findAll
+      operationId: SongsController::findAll
       parameters:
         - name: page
           required: true
@@ -43,33 +42,32 @@ paths:
           schema:
             type: number
       responses:
-        "200":
-          description: ""
-      tags:
+        '200':
+          description: ''
+      tags: &a2
         - songs
     post:
-      operationId: SongsController_create
+      operationId: SongsController::create
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateSongDTO"
+              $ref: '#/components/schemas/CreateSongDTO'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Song"
-      tags:
-        - songs
+                $ref: '#/components/schemas/Song'
+      tags: *a2
       security:
         - bearer: []
   /api/v1/songs/{id}:
     get:
-      operationId: SongsController_findOne
+      operationId: SongsController::findOne
       parameters:
         - name: id
           required: true
@@ -77,16 +75,15 @@ paths:
           schema:
             type: number
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Song"
-      tags:
-        - songs
+                $ref: '#/components/schemas/Song'
+      tags: *a2
     put:
-      operationId: SongsController_update
+      operationId: SongsController::update
       parameters:
         - name: id
           required: true
@@ -98,16 +95,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateSongDTO"
+              $ref: '#/components/schemas/UpdateSongDTO'
       responses:
-        "200":
-          description: ""
-      tags:
-        - songs
+        '200':
+          description: ''
+      tags: *a2
       security:
         - bearer: []
     delete:
-      operationId: SongsController_delete
+      operationId: SongsController::delete
       parameters:
         - name: id
           required: true
@@ -115,25 +111,24 @@ paths:
           schema:
             type: number
       responses:
-        "200":
-          description: ""
-      tags:
-        - songs
+        '200':
+          description: ''
+      tags: *a2
       security:
         - bearer: []
   /api/v1/playlists:
     post:
-      operationId: PlaylistsController_create
+      operationId: PlaylistsController::create
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreatePlaylistDTO"
+              $ref: '#/components/schemas/CreatePlaylistDTO'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
           content:
             application/json:
               schema:
@@ -142,79 +137,75 @@ paths:
         - playlists
   /api/v1/auth/login:
     post:
-      operationId: AuthController_login
+      operationId: AuthController::login
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/LoginDTO"
+              $ref: '#/components/schemas/LoginDTO'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
           content:
             application/json:
               schema:
                 type: object
-      tags:
+      tags: &a3
         - auth
   /api/v1/auth/enable-2fa:
     post:
-      operationId: AuthController_enable2FA
+      operationId: AuthController::enable2FA
       parameters: []
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
           content:
             application/json:
               schema:
                 type: object
-      tags:
-        - auth
+      tags: *a3
       security:
         - JWT-auth: []
   /api/v1/auth/validate-2fa:
     post:
-      operationId: AuthController_validate2FA
+      operationId: AuthController::validate2FA
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ValidateOtpDTO"
+              $ref: '#/components/schemas/ValidateOtpDTO'
       responses:
-        "201":
-          description: ""
-      tags:
-        - auth
+        '201':
+          description: ''
+      tags: *a3
       security:
         - JWT-auth: []
   /api/v1/auth/disable-2fa:
     post:
-      operationId: AuthController_disable2FA
+      operationId: AuthController::disable2FA
       parameters: []
       responses:
-        "201":
-          description: ""
-      tags:
-        - auth
+        '201':
+          description: ''
+      tags: *a3
       security:
         - JWT-auth: []
   /api/v1/auth/validate-api-key:
     get:
-      operationId: AuthController_validateApiKey
+      operationId: AuthController::validateApiKey
       parameters: []
       responses:
-        "200":
-          description: ""
-      tags:
-        - auth
+        '200':
+          description: ''
+      tags: *a3
 info:
   title: Spotify Clone API
   description: freeCodeCamp - NestJS Complete Course API
-  version: "1.0"
+  version: '1.0'
   contact: {}
 tags: []
 servers:
@@ -263,7 +254,7 @@ components:
         playlists:
           type: array
           items:
-            $ref: "#/components/schemas/Playlist"
+            $ref: '#/components/schemas/Playlist'
       required:
         - firstName
         - lastName
@@ -282,11 +273,11 @@ components:
         name:
           type: string
         user:
-          $ref: "#/components/schemas/User"
+          $ref: '#/components/schemas/User'
         songs:
           type: array
           items:
-            $ref: "#/components/schemas/Song"
+            $ref: '#/components/schemas/Song'
       required:
         - id
         - name
@@ -307,11 +298,11 @@ components:
         lyrics:
           type: string
         playlist:
-          $ref: "#/components/schemas/Playlist"
+          $ref: '#/components/schemas/Playlist'
         artists:
           type: array
           items:
-            $ref: "#/components/schemas/Artist"
+            $ref: '#/components/schemas/Artist'
       required:
         - id
         - title
@@ -330,9 +321,9 @@ components:
         songs:
           type: array
           items:
-            $ref: "#/components/schemas/Song"
+            $ref: '#/components/schemas/Song'
         user:
-          $ref: "#/components/schemas/User"
+          $ref: '#/components/schemas/User'
       required:
         - id
         - name

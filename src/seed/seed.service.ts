@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { seedData } from 'db/seeds/seed-data';
+import { seedData } from 'src/db/seeds/seed-data';
 import { DataSource } from 'typeorm';
 
 @Injectable()

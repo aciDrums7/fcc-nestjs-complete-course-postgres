@@ -7,7 +7,7 @@ export function generateOpenapiOptions(
   API_VERSION: string,
   includeManifest: boolean,
   includeClient: boolean,
-  startWebServer: boolean,
+  startWebServer: boolean
 ) {
   // ? The DocumentBuilder helps to structure a base document that conforms to the OpenAPI Specification
   const documentBuilder: DocumentBuilder = new DocumentBuilder()
@@ -36,7 +36,7 @@ export function generateOpenapiOptions(
     clientGeneratorOptions: {
       enabled: includeClient,
       type: 'typescript-axios',
-      outputFolderPath: 'openapi/typescript-api-client/src',
+      outputFolderPath: 'openapi/typescript-axios-api-client/src',
       additionalProperties: [
         'snapshot=true',
         'apiPackage=apis',
@@ -54,7 +54,7 @@ export function generateOpenapiOptions(
   const swaggerOptions: SwaggerDocumentOptions = {
     // deepScanRoutes: true,
     operationIdFactory: (controllerKey: string, methodKey: string) =>
-      `${controllerKey}_${methodKey}`,
+      `${controllerKey}::${methodKey}`,
   };
 
   // ? https://www.youtube.com/watch?v=11OjFCJoFjo

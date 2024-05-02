@@ -18,7 +18,7 @@ export class SongsService {
     @InjectRepository(Song)
     private readonly songsRepository: Repository<Song>,
     @InjectRepository(Artist)
-    private readonly artistsRepository: Repository<Artist>,
+    private readonly artistsRepository: Repository<Artist>
     /* @Inject('CONNECTION') private connection: Connection */
   ) {
     // Logger.log('Inside SongsService');

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+// ! Only needed when using webpack and hot reloading
 const nodeExternals = require('webpack-node-externals');
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 

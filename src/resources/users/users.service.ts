@@ -15,7 +15,7 @@ import { User } from './user.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>
   ) {}
 
   async create(createUserDTO: CreateUserDTO): Promise<User> {
@@ -25,7 +25,7 @@ export class UsersService {
       })
     ) {
       throw new BadRequestException(
-        `User with email ${createUserDTO.email} already exists`,
+        `User with email ${createUserDTO.email} already exists`
       );
     }
     const salt = await bcrypt.genSalt();
@@ -62,14 +62,14 @@ export class UsersService {
     }
     return this.userRepository.update(
       { id: userId },
-      { secret2FA: secretKey, enable2FA: true },
+      { secret2FA: secretKey, enable2FA: true }
     );
   }
 
   async disable2FA(userId: number) {
     return this.userRepository.update(
       { id: userId },
-      { enable2FA: false, secret2FA: null },
+      { enable2FA: false, secret2FA: null }
     );
   }
 

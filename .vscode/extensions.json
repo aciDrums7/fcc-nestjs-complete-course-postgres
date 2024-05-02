@@ -8,7 +8,6 @@
     "eamodio.gitlens",
     "oderwat.indent-rainbow",
     "esbenp.prettier-vscode",
-    "prisma.prisma",
     "yoavbls.pretty-ts-errors",
     "mikestead.dotenv"
   ]

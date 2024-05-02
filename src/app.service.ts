@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DevConfigService } from './common/providers/dev-config.service/dev-config.service';
+import { DevConfigService } from './common/providers/dev-config/dev-config.service';
 
 @Injectable()
 export class AppService {
   constructor(
     private readonly devConfigService: DevConfigService,
-    @Inject('CONFIG') private readonly config,
+    @Inject('CONFIG') private readonly config
   ) {}
 
   getHello(): string {

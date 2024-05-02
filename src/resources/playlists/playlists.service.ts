@@ -14,7 +14,7 @@ export class PlaylistsService {
     @InjectRepository(Song)
     private readonly songRepository: Repository<Song>,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>
   ) {}
 
   async create(playlistDTO: CreatePlaylistDTO): Promise<Playlist> {
