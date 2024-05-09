@@ -12,9 +12,8 @@ import { OpenApiNestFactory } from 'nest-openapi-tools';
 import { parseArgs } from 'util';
 import yaml from 'yaml';
 import { AppModule } from './app.module';
-import metadata from './metadata';
 import { generateOpenapiOptions } from './config/openapi.config';
-// declare const module: any;
+import metadata from './metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -55,6 +54,9 @@ async function setupDevEnv(
       exit: { type: 'boolean', short: 'e', default: false },
     },
   });
+
+  // const seedService = app.get(SeedService);
+  // await seedService.seed();
 
   const {
     manifest: generateManifest,

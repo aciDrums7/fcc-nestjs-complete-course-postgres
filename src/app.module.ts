@@ -2,14 +2,13 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from 'src/db/data-source';
-import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
 import { DevConfigService } from './common/providers/dev-config/dev-config.service';
-import { validate } from './common/validators/env.validation';
-import configuration from './config/env.config';
+import { validate } from './common/validators/env.validator';
+import { envConfig } from './config/env.config';
 import { ArtistsModule } from './resources/artists/artists.module';
 import { PlaylistsModule } from './resources/playlists/playlists.module';
 import { SongsModule } from './resources/songs/songs.module';
@@ -32,8 +31,8 @@ import { SeedModule } from './seed/seed.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.dev' /* , '.env.prod' */],
-      load: [configuration],
+      envFilePath: ['.env'],
+      load: [envConfig],
       validate: validate,
     }),
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
@@ -46,7 +45,7 @@ import { SeedModule } from './seed/seed.module';
   ], // repositories, services and factories
 })
 export class AppModule implements NestModule {
-  constructor(private readonly datasource: DataSource) {
+  constructor(/* private readonly datasource: DataSource */) {
     // Logger.log('dbName:', datasource.driver.database);
   }
   configure(consumer: MiddlewareConsumer) {

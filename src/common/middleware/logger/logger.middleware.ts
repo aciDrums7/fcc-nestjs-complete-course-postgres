@@ -7,9 +7,6 @@ export class LoggerMiddleware implements NestMiddleware {
     Logger.log(
       `${now.toDateString()}, ${now.toLocaleTimeString()} - Request ${req.method} ${req.baseUrl}`
     );
-    // if (Object.keys(req.body).length !== 0) {
-    //   Logger.log(`Body: \n${JSON.stringify(req.body, null, 2)}`);
-    // }
     next();
   }
 }

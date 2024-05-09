@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "humao.rest-client",
     "firsttris.vscode-jest-runner",
     "kavod-io.vscode-jest-test-adapter",
     "tomoki1207.pdf",
@@ -9,6 +8,7 @@
     "oderwat.indent-rainbow",
     "esbenp.prettier-vscode",
     "yoavbls.pretty-ts-errors",
-    "mikestead.dotenv"
+    "mikestead.dotenv",
+    "prisma.prisma"
   ]
 }

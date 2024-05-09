@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node-postgres
 {
-  "name": "freeCodeCamp NestJS - Complete Course",
+  "name": "freeCodeCamp NestJS - Complete Course - Postgres",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceMount": "source=${localWorkspaceFolder}/project-postgres,target=/workspace,type=bind,consistency=cached",
@@ -11,6 +11,7 @@
     "ghcr.io/devcontainers-contrib/features/pnpm:2": {},
     "ghcr.io/joshuanianji/devcontainer-features/mount-pnpm-store:1": {},
     "ghcr.io/devcontainers-contrib/features/nestjs-cli:2": {},
+    "ghcr.io/devcontainers-contrib/features/prisma:2": {},
     "ghcr.io/devcontainers/features/java:1": {},
     "ghcr.io/devcontainers-contrib/features/prettier:1": {}
   },
