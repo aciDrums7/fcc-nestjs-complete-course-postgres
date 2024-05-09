@@ -13,6 +13,9 @@ export const envConfig = () => ({
     name: process.env.DB_NAME || 'spotify-clone',
     username: process.env.DB_USERNAME || 'postgres',
     password: process.env.DB_PASSWORD || 'postgres',
+    url:
+      process.env.DB_URL ||
+      'postgresql://postgres:postgres@localhost:5432/spotify-clone',
   },
   openapiPath: process.env.OPENAPI_PATH || './openapi',
   tsPostProcessFile:

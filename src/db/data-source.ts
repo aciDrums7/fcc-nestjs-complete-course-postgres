@@ -29,11 +29,12 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
   ): Promise<TypeOrmModuleOptions> => {
     return {
       type: 'postgres',
-      host: configService.get<string>('db.host'),
-      port: configService.get<number>('db.port'),
-      database: configService.get<string>('db.name'),
-      username: configService.get<string>('db.username'),
-      password: configService.get<string>('db.password'),
+      url: configService.get<string>('db.url'),
+      // host: configService.get<string>('db.host'),
+      // port: configService.get<number>('db.port'),
+      // database: configService.get<string>('db.name'),
+      // username: configService.get<string>('db.username'),
+      // password: configService.get<string>('db.password'),
       entities: [User, Artist, Song, Playlist],
       synchronize: false,
       migrations: ['dist/db/migrations/*.js'],

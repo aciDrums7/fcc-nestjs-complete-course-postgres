@@ -7,3 +7,6 @@
 
 # Husky
 .husky
+
+# Prisma ORM
+*.prisma

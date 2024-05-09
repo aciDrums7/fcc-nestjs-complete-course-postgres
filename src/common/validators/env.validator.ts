@@ -48,6 +48,9 @@ class EnvironmentVariables {
   DB_PASSWORD: string;
 
   @IsString()
+  DB_URL: string;
+
+  @IsString()
   OPENAPI_PATH: string;
 
   @IsString()
@@ -67,7 +70,7 @@ export function validate(config: Record<string, unknown>) {
     */
     enableImplicitConversion: true,
   });
-  // console.log(validatedConfig);
+  console.log(validatedConfig);
 
   const errors = validateSync(validatedConfig, {
     skipMissingProperties: false,

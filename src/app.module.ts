@@ -9,16 +9,23 @@ import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
 import { DevConfigService } from './common/providers/dev-config/dev-config.service';
 import { validate } from './common/validators/env.validator';
 import { envConfig } from './config/env.config';
-import { ArtistsModule } from './resources/artists/artists.module';
-import { PlaylistsModule } from './resources/playlists/playlists.module';
-import { SongsModule } from './resources/songs/songs.module';
-import { UsersModule } from './resources/users/users.module';
+import { ResourcesModule } from './resources/resources.module';
 import { SeedModule } from './seed/seed.module';
 
 @Module({
   //? import and export other modules, following encapsulation
-  // imports: [],
-  // exports: []
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env'],
+      load: [envConfig],
+      validate: validate,
+    }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    AuthModule,
+    SeedModule,
+    ResourcesModule,
+  ], // repositories, services and factories
   controllers: [AppController], // REST controllers
   providers: [
     AppService,
@@ -28,21 +35,6 @@ import { SeedModule } from './seed/seed.module';
       useFactory: () => process.env.PORT,
     },
   ],
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: ['.env'],
-      load: [envConfig],
-      validate: validate,
-    }),
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
-    SongsModule,
-    PlaylistsModule,
-    AuthModule,
-    UsersModule,
-    ArtistsModule,
-    SeedModule,
-  ], // repositories, services and factories
 })
 export class AppModule implements NestModule {
   constructor(/* private readonly datasource: DataSource */) {
