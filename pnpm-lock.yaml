@@ -95,6 +95,9 @@ importers:
       '@nestjs/testing':
         specifier: ^10.3.8
         version: 10.3.8(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.8(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.3.8(@nestjs/common@10.3.8(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.8))
+      '@prisma/client':
+        specifier: ^5.13.0
+        version: 5.13.0(prisma@5.13.0)
       '@swc/cli':
         specifier: ^0.3.12
         version: 0.3.12(@swc/core@1.4.17(@swc/helpers@0.5.11))(chokidar@3.6.0)
@@ -1099,6 +1102,18 @@ packages:
         integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==,
       }
     engines: { node: ^12.20.0 || ^14.18.0 || >=16.0.0 }
+
+  '@prisma/client@5.13.0':
+    resolution:
+      {
+        integrity: sha512-uYdfpPncbZ/syJyiYBwGZS8Gt1PTNoErNYMuqHDa2r30rNSFtgTA/LXsSk55R7pdRTMi5pHkeP9B14K6nHmwkg==,
+      }
+    engines: { node: '>=16.13' }
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
 
   '@prisma/debug@5.13.0':
     resolution:
@@ -7763,6 +7778,10 @@ snapshots:
     optional: true
 
   '@pkgr/core@0.1.1': {}
+
+  '@prisma/client@5.13.0(prisma@5.13.0)':
+    optionalDependencies:
+      prisma: 5.13.0
 
   '@prisma/debug@5.13.0': {}
 

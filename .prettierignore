@@ -10,3 +10,5 @@
 
 # Prisma ORM
 *.prisma
+*.sql
+*.toml
