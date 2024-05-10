@@ -2,7 +2,7 @@ openapi: 3.0.0
 paths:
   /api/v1:
     get:
-      operationId: AppController::getHello
+      operationId: getHello
       parameters: []
       responses:
         '200':
@@ -11,63 +11,34 @@ paths:
             application/json:
               schema:
                 type: string
-      tags: &a1
+      tags:
         - app
-  /api/v1/current-user:
-    get:
-      operationId: AppController::getProfile
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-      tags: *a1
-      security:
-        - JWT-auth: []
   /api/v1/songs:
-    get:
-      operationId: SongsController::findAll
-      parameters:
-        - name: page
-          required: true
-          in: query
-          schema:
-            type: number
-        - name: limit
-          required: true
-          in: query
-          schema:
-            type: number
-      responses:
-        '200':
-          description: ''
-      tags: &a2
-        - songs
     post:
-      operationId: SongsController::create
+      operationId: createSong
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateSongDTO'
+              $ref: '#/components/schemas/CreateSongDto'
       responses:
         '201':
           description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Song'
-      tags: *a2
-      security:
-        - bearer: []
+      tags:
+        - songs
+    get:
+      operationId: findAllSongs
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - songs
   /api/v1/songs/{id}:
     get:
-      operationId: SongsController::findOne
+      operationId: findSongById
       parameters:
         - name: id
           required: true
@@ -77,133 +48,42 @@ paths:
       responses:
         '200':
           description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Song'
-      tags: *a2
-    put:
-      operationId: SongsController::update
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: number
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateSongDTO'
-      responses:
-        '200':
-          description: ''
-      tags: *a2
-      security:
-        - bearer: []
-    delete:
-      operationId: SongsController::delete
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: number
-      responses:
-        '200':
-          description: ''
-      tags: *a2
-      security:
-        - bearer: []
-  /api/v1/playlists:
-    post:
-      operationId: PlaylistsController::create
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatePlaylistDTO'
-      responses:
-        '201':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
       tags:
-        - playlists
-  /api/v1/auth/login:
-    post:
-      operationId: AuthController::login
-      parameters: []
+        - songs
+    put:
+      operationId: updateSong
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginDTO'
-      responses:
-        '201':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-      tags: &a3
-        - auth
-  /api/v1/auth/enable-2fa:
-    post:
-      operationId: AuthController::enable2FA
-      parameters: []
-      responses:
-        '201':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-      tags: *a3
-      security:
-        - JWT-auth: []
-  /api/v1/auth/validate-2fa:
-    post:
-      operationId: AuthController::validate2FA
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ValidateOtpDTO'
-      responses:
-        '201':
-          description: ''
-      tags: *a3
-      security:
-        - JWT-auth: []
-  /api/v1/auth/disable-2fa:
-    post:
-      operationId: AuthController::disable2FA
-      parameters: []
-      responses:
-        '201':
-          description: ''
-      tags: *a3
-      security:
-        - JWT-auth: []
-  /api/v1/auth/validate-api-key:
-    get:
-      operationId: AuthController::validateApiKey
-      parameters: []
+              $ref: '#/components/schemas/UpdateSongDto'
       responses:
         '200':
           description: ''
-      tags: *a3
+      tags:
+        - songs
+    delete:
+      operationId: deleteSong
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - songs
 info:
-  title: Spotify Clone API
+  title: Spotify Clone API - Postgres - PrismaORM
   description: freeCodeCamp - NestJS Complete Course API
   version: '1.0'
   contact: {}
@@ -211,83 +91,10 @@ tags: []
 servers:
   - url: http://localhost:3000
 components:
-  securitySchemes:
-    bearer:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-      description: Enter JWT token
-      name: JWT
-      in: header
   schemas:
-    User:
+    CreateSongDto:
       type: object
       properties:
-        firstName:
-          type: string
-          example: John
-          description: Provide the first name of the user
-        lastName:
-          type: string
-          example: Belusci
-          description: Provide the last name of the user
-        email:
-          type: string
-          example: john@belusci.com
-          description: Provide the email of the user
-        phone:
-          type: string
-          example: +1 123-456-7890
-          description: Provide the phone number of the user
-        password:
-          type: string
-          example: Password1!
-          description: Provide the password of the user
-        id:
-          type: number
-        secret2FA:
-          type: string
-        enable2FA:
-          type: boolean
-        apiKey:
-          type: string
-        playlists:
-          type: array
-          items:
-            $ref: '#/components/schemas/Playlist'
-      required:
-        - firstName
-        - lastName
-        - email
-        - password
-        - id
-        - secret2FA
-        - enable2FA
-        - apiKey
-        - playlists
-    Artist:
-      type: object
-      properties:
-        id:
-          type: number
-        name:
-          type: string
-        user:
-          $ref: '#/components/schemas/User'
-        songs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Song'
-      required:
-        - id
-        - name
-        - user
-        - songs
-    Song:
-      type: object
-      properties:
-        id:
-          type: number
         title:
           type: string
         releaseDate:
@@ -297,47 +104,15 @@ components:
           type: string
         lyrics:
           type: string
-        playlist:
-          $ref: '#/components/schemas/Playlist'
-        artists:
-          type: array
-          items:
-            $ref: '#/components/schemas/Artist'
       required:
-        - id
         - title
         - releaseDate
         - duration
-        - lyrics
-        - playlist
-        - artists
-    Playlist:
-      type: object
-      properties:
-        id:
-          type: number
-        name:
-          type: string
-        songs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Song'
-        user:
-          $ref: '#/components/schemas/User'
-      required:
-        - id
-        - name
-        - songs
-        - user
-    CreateSongDTO:
+    UpdateSongDto:
       type: object
       properties:
         title:
           type: string
-        artistsIds:
-          type: array
-          items:
-            type: number
         releaseDate:
           format: date-time
           type: string
@@ -345,79 +120,3 @@ components:
           type: string
         lyrics:
           type: string
-      required:
-        - title
-        - artistsIds
-        - releaseDate
-        - duration
-        - lyrics
-    UpdateSongDTO:
-      type: object
-      properties:
-        title:
-          type: string
-        artistsIds:
-          type: array
-          items:
-            type: number
-        releaseDate:
-          format: date-time
-          type: string
-        duration:
-          type: string
-        lyrics:
-          type: string
-      required:
-        - title
-        - artistsIds
-        - releaseDate
-        - duration
-        - lyrics
-    CreatePlaylistDTO:
-      type: object
-      properties:
-        name:
-          type: string
-        songsIds:
-          type: array
-          items:
-            type: number
-        userId:
-          type: number
-      required:
-        - name
-        - songsIds
-        - userId
-    CreateUserDTO:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-      required:
-        - firstName
-        - lastName
-        - email
-        - password
-    LoginDTO:
-      type: object
-      properties:
-        email:
-          type: string
-        password:
-          type: string
-      required:
-        - email
-        - password
-    ValidateOtpDTO:
-      type: object
-      properties:
-        otp:
-          type: string
-      required:
-        - otp

@@ -1,16 +1,12 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmAsyncConfig } from 'src/db/data-source';
+import { PrismaModule } from 'nestjs-prisma';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
-import { DevConfigService } from './common/providers/dev-config/dev-config.service';
 import { validate } from './common/validators/env.validator';
 import { envConfig } from './config/env.config';
 import { ResourcesModule } from './resources/resources.module';
-import { SeedModule } from './seed/seed.module';
 
 @Module({
   //? import and export other modules, following encapsulation
@@ -21,30 +17,22 @@ import { SeedModule } from './seed/seed.module';
       load: [envConfig],
       validate: validate,
     }),
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
-    AuthModule,
-    SeedModule,
+    PrismaModule.forRoot({
+      isGlobal: true,
+      prismaServiceOptions: {
+        prismaOptions: {
+          log: ['error', 'warn' /* , 'query', 'info' */],
+        },
+      },
+    }),
     ResourcesModule,
-  ], // repositories, services and factories
-  controllers: [AppController], // REST controllers
-  providers: [
-    AppService,
-    { provide: DevConfigService, useClass: DevConfigService },
-    {
-      provide: 'CONFIG',
-      useFactory: () => process.env.PORT,
-    },
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
-  constructor(/* private readonly datasource: DataSource */) {
-    // Logger.log('dbName:', datasource.driver.database);
-  }
+  constructor() {}
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*'); // * option 1
-    // consumer
-    //   .apply(LoggerMiddleware)
-    //   .forRoutes({ path: 'songs', method: RequestMethod.POST }); // * option 2
-    // consumer.apply(LoggerMiddleware).forRoutes(SongsController); // * option 3
   }
 }

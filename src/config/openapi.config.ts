@@ -3,40 +3,34 @@ import { OpenApiOptions } from 'nest-openapi-tools';
 
 //* https://medium.com/@christianinyekaka/step-by-step-guide-adding-openapi-documentation-to-your-nestjs-api-c210754ad905
 //* https://www.npmjs.com/package/nest-openapi-tools
-export function generateOpenapiOptions(
-  API_VERSION: string,
+export function getOpenAPIConfigs(
+  apiVersion: string,
+  port: number,
+  openapiPath: string,
   includeManifest: boolean,
   includeClient: boolean,
   startWebServer: boolean
 ) {
   // ? The DocumentBuilder helps to structure a base document that conforms to the OpenAPI Specification
   const documentBuilder: DocumentBuilder = new DocumentBuilder()
-    .setTitle('Spotify Clone API')
+    .setTitle('Spotify Clone API - Postgres - PrismaORM')
     .setDescription('freeCodeCamp - NestJS Complete Course API')
     .setVersion('1.0')
-    .addServer('http://localhost:3000')
-    .addBearerAuth({
-      type: 'http',
-      description: 'Enter JWT token',
-      name: 'JWT',
-      in: 'header',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-    });
+    .addServer(`http://localhost:${port}`);
 
   const openApiOptions: OpenApiOptions = {
     webServerOptions: {
       enabled: startWebServer,
-      path: `api-docs/${API_VERSION}`,
+      path: `api-docs/${apiVersion}`,
     },
     fileGeneratorOptions: {
       enabled: includeManifest,
-      outputFilePath: 'openapi/openapi.yaml', // or ./openapi.json
+      outputFilePath: `${openapiPath}/openapi.yaml`, // or ./openapi.json
     },
     clientGeneratorOptions: {
       enabled: includeClient,
       type: 'typescript-axios',
-      outputFolderPath: 'openapi/typescript-axios-api-client/src',
+      outputFolderPath: `${openapiPath}/typescript-axios-api-client/src`,
       additionalProperties: [
         'snapshot=true',
         'apiPackage=apis',
@@ -46,7 +40,7 @@ export function generateOpenapiOptions(
         'stringEnums=true',
         'enablePostProcessFile=true',
       ].join(','),
-      openApiFilePath: 'openapi/openapi.yaml', // or ./openapi.json
+      openApiFilePath: `${openapiPath}/openapi.yaml`, // or ./openapi.json
       // skipValidation: false, // optional, false by default
     },
   };
@@ -54,7 +48,7 @@ export function generateOpenapiOptions(
   const swaggerOptions: SwaggerDocumentOptions = {
     // deepScanRoutes: true,
     operationIdFactory: (controllerKey: string, methodKey: string) =>
-      `${controllerKey}::${methodKey}`,
+      `${methodKey}`,
   };
 
   // ? https://www.youtube.com/watch?v=11OjFCJoFjo

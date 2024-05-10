@@ -17,20 +17,20 @@ class EnvironmentVariables {
   @IsEnum(Environment)
   NODE_ENV: Environment;
 
-  @IsString()
-  API_VERSION: string;
-
   @IsNumber()
   PORT: number;
+
+  @IsString()
+  APP_URL: string;
+
+  @IsString()
+  API_VERSION: string;
 
   @IsString()
   JWT_SECRET: string;
 
   @IsString()
   JWT_EXPIRATION_TIME: string;
-
-  @IsString()
-  DB_TYPE: string;
 
   @IsString()
   DB_HOST: string;
@@ -70,7 +70,7 @@ export function validate(config: Record<string, unknown>) {
     */
     enableImplicitConversion: true,
   });
-  console.log(validatedConfig);
+  // console.log(validatedConfig);
 
   const errors = validateSync(validatedConfig, {
     skipMissingProperties: false,

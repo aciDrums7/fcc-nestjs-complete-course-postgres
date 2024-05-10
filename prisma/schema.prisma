@@ -2,14 +2,21 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// generator class_validator {
+//   provider = "prisma-class-validator-generator"
+// }
+
 datasource db {
   provider = "postgresql"
-  url      = env("DB_URL_PRISMA")
+  url      = env("DB_URL")
 }
 
 model Song {
-  id    Int    @id @default(autoincrement())
-  title String
+  id          Int      @id @default(autoincrement())
+  title       String
+  releaseDate DateTime
+  duration    DateTime   @db.Time
+  lyrics      String?
 
   @@map("songs")
 }

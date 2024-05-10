@@ -8,15 +8,14 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "typeorm": "npx typeorm -d dist/db/data-source.js",
-    "migration:generate": "pnpm run build && pnpm run typeorm migration:generate",
-    "migration:run": "pnpm run typeorm migration:run",
-    "migration:revert": "pnpm run typeorm migration:revert",
-    "migration:show": "pnpm run typeorm migration:show",
     "start": "nest start $*",
     "dev": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
+    "db:seed": "pnpm exec prisma db seed",
+    "db:seed:init": "pnpm exec snaplet-seed init prisma/seed",
+    "db:migrate": "prisma migrate dev && pnpm db:postmigrate",
+    "db:postmigrate": "pnpm exec snaplet-seed --config prisma/seed/seed.config.ts sync",
     "openapi": "pnpm run start -- --manifest --client --exit",
     "openapi:manifest": "pnpm run start -- --manifest --exit",
     "openapi:client": "pnpm run start -- --client --exit",
@@ -28,6 +27,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "node .husky/install.mjs"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed/seed.ts"
+  },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
     "@nestjs/common": "^10.3.8",
@@ -37,30 +39,29 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.3.8",
     "@nestjs/swagger": "^7.3.1",
-    "@nestjs/typeorm": "^10.0.2",
+    "@prisma/client": "^5.13.0",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "nest-openapi-tools": "^6.0.3",
-    "nestjs-typeorm-paginate": "^4.0.4",
+    "nestjs-prisma": "^0.23.0",
     "passport": "^0.7.0",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.1",
     "pg": "^8.11.5",
+    "prisma-class-validator-generator": "^5.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "speakeasy": "^2.0.0",
-    "swagger-ui-express": "^5.0.0",
-    "typeorm": "^0.3.20",
-    "uuid": "^9.0.1",
-    "yaml": "^2.4.2"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.1.1",
     "@nestjs/cli": "^10.3.2",
     "@nestjs/schematics": "^10.1.1",
     "@nestjs/testing": "^10.3.8",
-    "@prisma/client": "^5.13.0",
+    "@snaplet/copycat": "^5.0.0",
+    "@snaplet/seed": "0.97.12",
     "@swc/cli": "^0.3.12",
     "@swc/core": "^1.4.17",
     "@swc/helpers": "^0.5.11",
@@ -87,7 +88,6 @@
     "prettier": "^3.2.5",
     "pretty-quick": "^4.0.0",
     "prisma": "^5.13.0",
-    "run-script-webpack-plugin": "^0.2.0",
     "source-map-support": "^0.5.21",
     "supertest": "^6.3.4",
     "swc-loader": "^0.2.6",
@@ -96,11 +96,9 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.9.3",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^7.8.0",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-node-externals": "^3.0.0"
+    "typescript-eslint": "^7.8.0"
   },
   "jest": {
     "moduleFileExtensions": [

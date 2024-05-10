@@ -1,8 +1,6 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { PassportRequest } from './auth/dto/request-with.user.dto';
-import { JwtAuthGuard } from './auth/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('/')
 //* https://docs.nestjs.com/openapi/decorators
@@ -13,12 +11,5 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
-  }
-
-  @Get('current-user')
-  @ApiBearerAuth('JWT-auth')
-  @UseGuards(JwtAuthGuard)
-  getProfile(@Req() req: PassportRequest) {
-    return req.user;
   }
 }

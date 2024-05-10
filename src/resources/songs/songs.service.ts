@@ -1,57 +1,54 @@
-import { Injectable, Scope } from '@nestjs/common';
-import { DeleteResult, In, Repository, UpdateResult } from 'typeorm';
-import { Song } from './song.entity';
-import { CreateSongDTO } from './dto/create-song.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UpdateSongDTO } from './dto/update-song.dto';
-import {
-  IPaginationOptions,
-  Pagination,
-  paginate,
-} from 'nestjs-typeorm-paginate';
-import { Artist } from 'src/resources/artists/artist.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma, Song } from '@prisma/client';
+import { PrismaService } from 'nestjs-prisma';
+import { CreateSongDto } from './dtos/create-song.dto';
+import { UpdateSongDto } from './dtos/update-song.dto';
+import { JsonUtils } from 'src/common/utils/json.utils';
 
-// ? With Scope.TRANSIENT, A new private instance of the provider is instantiated for every use
-@Injectable({ scope: Scope.TRANSIENT })
+@Injectable()
 export class SongsService {
-  constructor(
-    @InjectRepository(Song)
-    private readonly songsRepository: Repository<Song>,
-    @InjectRepository(Artist)
-    private readonly artistsRepository: Repository<Artist>
-    /* @Inject('CONNECTION') private connection: Connection */
-  ) {
-    // Logger.log('Inside SongsService');
-    // Logger.log(this.connection);
+  constructor(private readonly prisma: PrismaService) {}
+
+  createSong(createSongDTO: CreateSongDto): Promise<Song | null> {
+    const song = this.prisma.song.create({
+      data: createSongDTO,
+    });
+    return song;
   }
 
-  async findAll(options: IPaginationOptions): Promise<Pagination<Song>> {
-    // ! NestJS embedded error handling example
-    // throw new Error('Error in db while fetching records');
-    const queryBuilder = this.songsRepository.createQueryBuilder('c');
-    queryBuilder.orderBy('c.title', 'ASC');
-    return await paginate<Song>(queryBuilder, options);
+  findAllSongs(): Promise<Song[]> {
+    return this.prisma.song.findMany();
   }
 
-  findOne(id: number): Promise<Song> {
-    return this.songsRepository.findOneBy({ id });
+  async findSong(where: Prisma.SongWhereUniqueInput): Promise<Song> {
+    const song = await this.prisma.song.findUnique({
+      where,
+    });
+    if (!song) {
+      // if (where.id) {
+      //   throw new NotFoundException(`Song with id ${where.id} not found`);
+      // } else {
+      throw new NotFoundException(
+        `Song with ${JsonUtils.prismaWhereToJson(where)} not found`
+      );
+    }
+    return song;
   }
 
-  async create(songDTO: CreateSongDTO): Promise<Song> {
-    const { artistsIds, ...song } = songDTO;
-    const artists = await this.artistsRepository.findBy({ id: In(artistsIds) });
-
-    return this.songsRepository.save({ ...song, artists });
+  async update(
+    where: Prisma.SongWhereUniqueInput,
+    updateSongDTO: UpdateSongDto
+  ): Promise<Song> {
+    await this.findSong(where);
+    const song = await this.prisma.song.update({
+      where,
+      data: updateSongDTO,
+    });
+    return song;
   }
 
-  async update(id: number, songDTO: UpdateSongDTO): Promise<UpdateResult> {
-    const { artistsIds, ...song } = songDTO;
-    const artists = await this.artistsRepository.findBy({ id: In(artistsIds) });
-
-    return this.songsRepository.update({ id }, { ...song, artists });
-  }
-
-  deleteById(id: number): Promise<DeleteResult> {
-    return this.songsRepository.delete(id);
+  async delete(where: Prisma.SongWhereUniqueInput) {
+    await this.findSong(where);
+    return this.prisma.song.delete({ where });
   }
 }
