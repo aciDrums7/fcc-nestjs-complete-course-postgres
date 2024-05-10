@@ -10,6 +10,9 @@ export class SongsService {
   constructor(private readonly prisma: PrismaService) {}
 
   createSong(createSongDTO: CreateSongDto): Promise<Song | null> {
+    createSongDTO.duration = new Date(
+      `1969-03-07T${createSongDTO.duration}:00Z`
+    ).toISOString();
     const song = this.prisma.song.create({
       data: createSongDTO,
     });

@@ -1,9 +1,11 @@
 import { Transform } from 'class-transformer';
 import {
   IsDateString,
+  IsInt,
   IsMilitaryTime,
   IsNotEmpty,
   IsOptional,
+  IsPositive,
   IsString,
 } from 'class-validator';
 
@@ -15,7 +17,7 @@ export class CreateSongDto {
   @IsNotEmpty()
   @IsDateString()
   @Transform(({ value }) => new Date(value).toISOString())
-  releaseDate!: Date;
+  releaseDate!: string;
 
   @IsNotEmpty()
   @IsMilitaryTime()
@@ -24,4 +26,9 @@ export class CreateSongDto {
   @IsOptional()
   @IsString()
   lyrics?: string;
+
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  artistId?: number;
 }

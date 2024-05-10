@@ -51,7 +51,7 @@ paths:
       tags:
         - songs
     put:
-      operationId: updateSong
+      operationId: updateSongById
       parameters:
         - name: id
           required: true
@@ -70,7 +70,7 @@ paths:
       tags:
         - songs
     delete:
-      operationId: deleteSong
+      operationId: deleteSongById
       parameters:
         - name: id
           required: true
@@ -82,6 +82,75 @@ paths:
           description: ''
       tags:
         - songs
+  /api/v1/artists:
+    post:
+      operationId: createArtist
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateArtistDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - artists
+    get:
+      operationId: findAllArtists
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - artists
+  /api/v1/artists/{id}:
+    get:
+      operationId: findArtistById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - artists
+    patch:
+      operationId: updateArtistById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateArtistDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+        - artists
+    delete:
+      operationId: deleteArtistById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - artists
 info:
   title: Spotify Clone API - Postgres - PrismaORM
   description: freeCodeCamp - NestJS Complete Course API
@@ -98,12 +167,14 @@ components:
         title:
           type: string
         releaseDate:
-          format: date-time
           type: string
         duration:
           type: string
         lyrics:
           type: string
+        artistId:
+          type: number
+          minimum: 1
       required:
         - title
         - releaseDate
@@ -114,9 +185,23 @@ components:
         title:
           type: string
         releaseDate:
-          format: date-time
           type: string
         duration:
           type: string
         lyrics:
+          type: string
+        artistId:
+          type: number
+          minimum: 1
+    CreateArtistDto:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    UpdateArtistDto:
+      type: object
+      properties:
+        name:
           type: string

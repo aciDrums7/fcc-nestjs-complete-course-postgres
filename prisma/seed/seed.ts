@@ -13,10 +13,12 @@ const main = async () => {
   await seed.$resetDatabase();
 
   // Seed the database with 10 song
-  await seed.song((createMany) => createMany(10), {
-    // Create 10 posts for each of those users
-    // posts: (createMany) => createMany(10),
-  });
+  await seed.artist((createMany) =>
+    createMany(3, {
+      // Create 10 posts for each of those users
+      songs: (createMany) => createMany(7),
+    })
+  );
 
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 

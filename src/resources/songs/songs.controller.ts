@@ -39,7 +39,7 @@ export class SongsController {
   }
 
   @Put(':id')
-  updateSong(
+  updateSongById(
     @Param('id', ParseIntPipe)
     id: number,
     @Body() updateSongDTO: UpdateSongDto
@@ -48,7 +48,7 @@ export class SongsController {
   }
 
   @Delete(':id')
-  deleteSong(
+  deleteSongById(
     @Param('id', ParseIntPipe)
     id: number
   ) {

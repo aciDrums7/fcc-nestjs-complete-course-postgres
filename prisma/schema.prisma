@@ -15,8 +15,18 @@ model Song {
   id          Int      @id @default(autoincrement())
   title       String
   releaseDate DateTime
-  duration    DateTime   @db.Time
+  duration    DateTime @db.Time
   lyrics      String?
+  artist      Artist?  @relation(fields: [artistId], references: [id])
+  artistId    Int?
 
   @@map("songs")
+}
+
+model Artist {
+  id    Int    @id @default(autoincrement())
+  name  String
+  songs Song[]
+
+  @@map("artists")
 }
