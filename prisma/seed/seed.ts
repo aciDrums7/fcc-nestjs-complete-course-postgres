@@ -15,8 +15,14 @@ const main = async () => {
   // Seed the database with 10 song
   await seed.artist((createMany) =>
     createMany(3, {
-      // Create 10 posts for each of those users
+      // Create 7 songs for each of those artists
       songs: (createMany) => createMany(7),
+    })
+  );
+
+  await seed.user((createMany) =>
+    createMany(11, {
+      profiles: (createMany) => createMany(1),
     })
   );
 

@@ -14,7 +14,7 @@
     "prod": "node dist/main",
     "db:seed": "pnpm exec prisma db seed",
     "db:seed:init": "pnpm exec snaplet-seed init prisma/seed",
-    "db:migrate": "prisma migrate dev && pnpm db:postmigrate",
+    "db:migrate:dev": "prisma migrate dev && pnpm db:postmigrate",
     "db:postmigrate": "pnpm exec snaplet-seed --config prisma/seed/seed.config.ts sync",
     "openapi": "pnpm run start -- --manifest --client --exit",
     "openapi:manifest": "pnpm run start -- --manifest --exit",
@@ -96,7 +96,7 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.9.3",
+    "tsx": "^4.9.4",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"
   },

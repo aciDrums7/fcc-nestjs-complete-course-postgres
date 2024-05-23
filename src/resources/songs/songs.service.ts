@@ -9,7 +9,7 @@ import { JsonUtils } from 'src/common/utils/json.utils';
 export class SongsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  createSong(createSongDTO: CreateSongDto): Promise<Song | null> {
+  createSong(createSongDTO: CreateSongDto): Promise<Song> {
     createSongDTO.duration = new Date(
       `1969-03-07T${createSongDTO.duration}:00Z`
     ).toISOString();

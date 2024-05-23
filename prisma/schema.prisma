@@ -30,3 +30,21 @@ model Artist {
 
   @@map("artists")
 }
+
+model User {
+  id      Int      @id @default(autoincrement())
+  name    String
+  profile Profile?
+
+  @@map("users")
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+  photo  String
+  phone  String
+
+  @@map("profiles")
+}
